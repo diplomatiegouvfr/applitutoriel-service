@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    ﻿Copyright Ministère des Affaires étrangères et du Développement international , 22 avril 2015
+    https://adullact.net/projects/hornet/
+
+
+    Ce logiciel est un programme informatique servant à faciliter la création
+     d'applications Web accessibles conforémement au RGAA et performantes.
+
+    Ce logiciel est régi par la licence CeCILL v2.1 soumise au droit français et
+    respectant les principes de diffusion des logiciels libres. Vous pouvez
+    utiliser, modifier et/ou redistribuer ce programme sous les conditions
+    de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+    sur le site "http://www.cecill.info".
+
+    En contrepartie de l'accessibilité au code source et des droits de copie,
+    de modification et de redistribution accordés par cette licence, il n'est
+    offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+    seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+    titulaire des droits patrimoniaux et les concédants successifs.
+
+    A cet égard  l'attention de l'utilisateur est attirée sur les risques
+    associés au chargement,  à l'utilisation,  à la modification et/ou au
+    développement et à la reproduction du logiciel par l'utilisateur étant
+    donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+    manipuler et qui le réserve donc à des développeurs et des professionnels
+    avertis possédant  des  connaissances  informatiques approfondies.  Les
+    utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+    logiciel à leurs besoins dans des conditions permettant d'assurer la
+    sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+    à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+
+    Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+    pris connaissance de la licence CeCILL, et que vous en avez accepté les
+    termes.
+
+-->
+<web-app id="AppliTutoriel" version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+	http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+	<display-name>applitutoriel</display-name>
+
+	<context-param>
+		<param-name>version</param-name>
+		<param-value>5.0.0</param-value>
+	</context-param>
+
+	<session-config>
+	    <session-timeout>1</session-timeout>
+	    <cookie-config>
+	        <max-age>0</max-age>
+	    </cookie-config>
+	</session-config>
+	
+	<!-- Nom JNDI de la variable contenant le chemin vers les properties -->
+	<context-param>
+		<param-name>appConfigLocation</param-name>
+		<param-value>conf/applitutorielprop</param-value>
+	</context-param>
+
+	<!-- Fichiers Spring -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            classpath*:spring-appContext-web.xml
+        </param-value>
+	</context-param>
+
+	<!-- Dispatcher servlet Spring pour les services REST -->
+	<servlet>
+		<servlet-name>services-rest</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>services-rest</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+		
+	<!-- Spring Web localization filter -->
+	<filter>
+		<filter-name>localizationFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>
+
+	<!-- Spring Web localization filter mapping -->
+	<filter-mapping>
+		<filter-name>localizationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Metrologie -->
+	<filter>
+		<filter-name>metrologie</filter-name>
+		<filter-class>hornet.framework.metrologie.MetrologieFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>metrologie</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>SimpleCORSFilter</filter-name>
+		<filter-class>fr.gouv.diplomatie.applitutoriel.web.filter.SimpleCORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SimpleCORSFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>hornet.framework.web.listener.DynamicLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>fr.gouv.diplomatie.applitutoriel.web.listener.ApplicationContextListener</listener-class>
+	</listener>
+
+
+	<!-- localisation -->
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+		<param-value>fr</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+		<param-value>package</param-value>
+	</context-param>
+
+</web-app>

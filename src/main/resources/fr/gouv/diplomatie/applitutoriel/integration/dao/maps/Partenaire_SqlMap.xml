@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partenaire">
+
+	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire" id="mapPartenaire">
+		<result column="ID_PARTENAIRE" property="id" />
+		
+		<result column="PAR_IS_CLIENT" property="isClient" />
+		<result column="PAR_IS_VIP" property="isVIP" />
+		<result column="PAR_NOM" property="nom" />
+		<result column="PAR_PRENOM" property="prenom" />
+		<result column="PAR_NOM_LOCAL" property="nomLocal" />
+		<result column="PAR_PRENOM_LOCAL" property="prenomLocal" />
+		<result column="PAR_FONCTION" property="fonction" />
+		<result column="PAR_PRO_TEL_FIXE" property="proTelFixe" />
+		<result column="PAR_PRO_TEL_PORT" property="proTelPort" />
+		<result column="PAR_PRO_COURRIEL" property="proCourriel" />
+		<result column="PAR_PRO_FAX" property="proFax" />
+		<result column="PAR_PRO_ADR_CP" property="proAdrCP" />
+		<result column="PAR_PRO_ADR_RUE" property="proAdrRue" />
+		<result column="PAR_ASSIST_NOM" property="assistNom" />
+		<result column="PAR_ASSIST_PRENOM" property="assistPrenom" />
+		<result column="PAR_ASSIST_TEL" property="assistTel" />
+		<result column="PAR_ASSIST_COURRIEL" property="assistCourriel" />
+		<result column="PAR_COMMENTAIRE" property="commentaire" />
+		<result column="PAR_ORGANISME" property="organisme" />
+		<result column="PAR_DATE_CREATION" property="dateCrea" />
+		<result column="PAR_DATE_MODIFICATION" property="dateModif" />
+		<result column="SATISFACTION" property="satisfaction" />
+		<association column="ID_VILLE" property="ville" resultMap="ville.mapVille" />
+		<association column="ID_CIVILITE" property="civilite" resultMap="civilite.mapCivilite" />
+		<association column="ID_PHOTO" property="photo" resultMap="photo.mapPhoto" />
+		<association column="ID_PAYS" property="nationalite" resultMap="pays.mapPaysPartenaireNationalite" />
+		
+	</resultMap>
+
+	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire" id="mapPartenaireCriteres">
+		<result column="ID_PARTENAIRE" property="id" />
+		<result column="PAR_IS_CLIENT" property="isClient" />
+		<result column="PAR_IS_VIP" property="isVIP" />
+		<result column="PAR_NOM" property="nom" />
+		<result column="PAR_PRENOM" property="prenom" />
+		<result column="PAR_PRO_COURRIEL" property="proCourriel" />
+		<result column="PAR_ORGANISME" property="organisme" />
+		<result column="PAR_FONCTION" property="fonction" />
+		<result column="PAR_DATE_CREATION" property="dateCrea" />
+		<result column="PAR_DATE_MODIFICATION" property="dateModif" />
+	</resultMap>
+
+	<sql id="selectPartenaire_fragment">
+		SELECT
+		ID_PARTENAIRE,
+		VILLE.*, PAYS.*,
+		CIVILITE.*,PHOTO.ID_PHOTO,PHOTO.NOM,PHOTO.MIMETYPE,PHOTO.SIZE,
+		PAR_IS_CLIENT, PAR_IS_VIP,
+		nationalite.ID_PAYS as idNationalite, nationalite.PAY_NATIONALITE as libelleNationalite,
+		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_FONCTION,
+		PAR_PRO_TEL_FIXE, PAR_PRO_TEL_PORT, PAR_PRO_COURRIEL, PAR_PRO_FAX,
+		PAR_PRO_ADR_CP, PAR_PRO_ADR_RUE,
+		PAR_ASSIST_NOM, PAR_ASSIST_PRENOM, PAR_ASSIST_TEL, PAR_ASSIST_COURRIEL,
+		PAR_COMMENTAIRE, PAR_ORGANISME, PAR_DATE_CREATION, PAR_DATE_MODIFICATION,
+		SATISFACTION
+		FROM PARTENAIRE
+		INNER JOIN CIVILITE ON CIVILITE.ID_CIVILITE = PARTENAIRE.ID_CIVILITE
+		INNER JOIN PAYS AS nationalite ON nationalite.ID_PAYS = PARTENAIRE.ID_PAYS
+		INNER JOIN VILLE ON VILLE.ID_VILLE = PARTENAIRE.ID_VILLE
+		INNER JOIN PAYS ON VILLE.ID_PAYS = PAYS.ID_PAYS
+		LEFT OUTER JOIN PHOTO ON PHOTO.ID_PHOTO = PARTENAIRE.ID_PHOTO 
+	</sql>
+
+	<select id="select" resultMap="mapPartenaire">
+		<include refid="selectPartenaire_fragment" />
+		ORDER BY PAR_NOM ASC;
+	</select>
+
+	<select id="selectById" resultMap="mapPartenaire">
+		<include refid="selectPartenaire_fragment" />
+		WHERE ID_PARTENAIRE = #{id};
+	</select>
+
+	<select id="selectByCriteres" resultMap="mapPartenaireCriteres">
+		SELECT
+		DISTINCT PARTENAIRE.ID_PARTENAIRE, PAR_IS_CLIENT, PAR_IS_VIP, PAR_NOM, PAR_PRENOM,
+		PAR_PRO_COURRIEL, PAR_ORGANISME, PAR_FONCTION, PAR_DATE_CREATION, PAR_DATE_MODIFICATION
+		FROM PARTENAIRE
+		<if test="idSecteur != null">
+			<if test="idSecteur != 0">
+				INNER JOIN PRODUIT_PARTENAIRE ON PRODUIT_PARTENAIRE.ID_PARTENAIRE = PARTENAIRE.ID_PARTENAIRE
+				INNER JOIN PRODUIT ON PRODUIT.ID_PRODUIT = PRODUIT_PARTENAIRE.ID_PRODUIT AND PRODUIT.ID_SECTEUR = #{idSecteur}
+			</if>
+		</if>
+		<where>
+			<if test="partenaire.isClient != null" >
+				AND PAR_IS_CLIENT = #{partenaire.isClient}
+			</if>
+			<if test="partenaire.nom != null and partenaire.nom != ''" >
+				AND UPPER(PAR_NOM) like UPPER( '%' + #{partenaire.nom} + '%' )
+			</if>
+			<if test="partenaire.prenom != null and partenaire.prenom != ''" >
+				AND UPPER(PAR_PRENOM) like UPPER( '%' + #{partenaire.prenom} + '%' )
+			</if>
+			<if test="partenaire.proCourriel != null and partenaire.proCourriel != ''" >
+				AND UPPER(PAR_PRO_COURRIEL) like UPPER( '%' + #{partenaire.proCourriel} + '%' )
+			</if>
+			<if test="partenaire.organisme != null and partenaire.organisme != ''" >
+				AND UPPER(PAR_ORGANISME) like UPPER( '%' + #{partenaire.organisme} + '%' )
+			</if>
+			<if test="partenaire.dateModif != null and partenaire.dateModif != ''" >
+				AND DATEDIFF('dd', PAR_DATE_MODIFICATION, #{partenaire.dateModif}) = 0
+			</if>
+			<if test="partenaire.isVIP" >
+				AND PAR_IS_VIP = 1
+			</if>
+			<if test="partenaire.isVIPFiltre" >
+				AND PAR_IS_VIP = 1
+			</if>
+			<if test="startDate != null and startDate != ''" >
+				AND DATEDIFF('dd', PAR_DATE_MODIFICATION, #{startDate}) &lt;= 0
+			</if>
+			<if test="endDate != null and endDate != ''" >
+				AND DATEDIFF('dd', PAR_DATE_MODIFICATION, #{endDate}) &gt;= 0
+			</if>
+		</where>
+		GROUP BY
+		PARTENAIRE.ID_PARTENAIRE, PAR_IS_CLIENT, PAR_IS_VIP, PAR_NOM, PAR_PRENOM,
+		PAR_PRO_COURRIEL, PAR_ORGANISME, PAR_FONCTION, PAR_DATE_CREATION, PAR_DATE_MODIFICATION
+		ORDER BY LOWER(PAR_NOM) ASC;
+	</select>
+
+	<insert id="insert" parameterType="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="ID_PARTENAIRE" >
+		INSERT INTO PARTENAIRE
+		(
+		ID_VILLE, ID_CIVILITE, ID_PAYS, PAR_IS_CLIENT, PAR_IS_VIP,
+		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_FONCTION,
+		PAR_PRO_TEL_FIXE, PAR_PRO_TEL_PORT, PAR_PRO_COURRIEL, PAR_PRO_FAX,
+		PAR_PRO_ADR_CP, PAR_PRO_ADR_RUE,
+		PAR_ASSIST_NOM, PAR_ASSIST_PRENOM, PAR_ASSIST_TEL, PAR_ASSIST_COURRIEL,
+		PAR_COMMENTAIRE, PAR_ORGANISME,
+		ID_PHOTO,
+		SATISFACTION,		
+		PAR_DATE_CREATION, PAR_DATE_MODIFICATION
+		)
+		VALUES
+		(
+		#{ville.id}, #{civilite.id}, #{nationalite.id}, #{isClient}, #{isVIP},
+		#{nom}, #{prenom}, #{nomLocal}, #{prenomLocal}, #{fonction},
+		#{proTelFixe}, #{proTelPort}, #{proCourriel}, #{proFax},
+		#{proAdrCP}, #{proAdrRue},
+		#{assistNom}, #{assistPrenom}, #{assistTel}, #{assistCourriel},
+		#{commentaire}, #{organisme},
+		#{photo.id},
+		#{satisfaction},
+		#{dateCrea}, #{dateModif}
+		);
+	</insert>
+
+	<update id="update" parameterType="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire">
+		UPDATE PARTENAIRE SET
+		ID_VILLE = #{ville.id}, ID_CIVILITE = #{civilite.id}, ID_PAYS = #{nationalite.id},
+		PAR_IS_CLIENT = #{isClient}, PAR_IS_VIP = #{isVIP},
+		PAR_NOM = #{nom}, PAR_PRENOM = #{prenom}, PAR_NOM_LOCAL = #{nomLocal}, PAR_PRENOM_LOCAL = #{prenomLocal}, PAR_FONCTION =
+		#{fonction},
+		PAR_PRO_TEL_FIXE = #{proTelFixe}, PAR_PRO_TEL_PORT = #{proTelPort}, PAR_PRO_COURRIEL = #{proCourriel}, PAR_PRO_FAX = #{proFax},
+		PAR_PRO_ADR_CP = #{proAdrCP}, PAR_PRO_ADR_RUE = #{proAdrRue},
+		PAR_ASSIST_NOM = #{assistNom}, PAR_ASSIST_PRENOM = #{assistPrenom}, PAR_ASSIST_TEL = #{assistTel}, PAR_ASSIST_COURRIEL =
+		#{assistCourriel},
+		PAR_COMMENTAIRE = #{commentaire}, PAR_ORGANISME = #{organisme}, PAR_DATE_MODIFICATION = #{dateModif},
+		ID_PHOTO =#{photo.id},
+		SATISFACTION =#{satisfaction}
+		
+		WHERE ID_PARTENAIRE = #{id}
+	</update>
+
+	<delete id="delete" parameterType="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire">
+		DELETE FROM PARTENAIRE WHERE ID_PARTENAIRE = #{id}
+	</delete>
+</mapper>

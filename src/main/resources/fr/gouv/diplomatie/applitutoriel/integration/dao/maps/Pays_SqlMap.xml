@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pays">
+
+	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Pays" id="mapPays">
+		<result column="ID_PAYS" property="id" />
+		<result column="PAY_LIBELLE" property="libelle" />
+		<result column="PAY_NATIONALITE" property="nationalite" />
+	</resultMap>
+
+	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Pays" id="mapPaysPartenaireNationalite">
+		<result column="idNationalite" property="id" />
+		<result column="libelleNationalite" property="nationalite" />
+	</resultMap>
+
+	<sql id="select_fragment">
+		SELECT ID_PAYS, PAY_LIBELLE, PAY_NATIONALITE
+		FROM PAYS
+	</sql>
+
+	<sql id="orderByPaysLibelle_fragment">
+		ORDER BY PAY_LIBELLE ASC;
+	</sql>
+
+	<sql id="orderByPaysNationnalite_fragment">
+		ORDER BY PAY_NATIONALITE ASC;
+	</sql>
+
+	<select id="select" resultMap="mapPays">
+		<include refid="select_fragment" />
+		<include refid="orderByPaysLibelle_fragment" />
+	</select>
+
+	<select id="selectNationalite" resultMap="mapPays">
+		<include refid="select_fragment" />
+		<include refid="orderByPaysNationnalite_fragment" />
+	</select>
+
+	<select id="selectNationaliteByCriteres" resultMap="mapPays">
+		<include refid="select_fragment" />
+		<where>
+			<if test="nationalite != null and nationalite != ''">
+				AND UPPER(PAY_NATIONALITE) LIKE UPPER('%${nationalite}%')
+			</if>
+		</where>
+		<include refid="orderByPaysNationnalite_fragment" />
+	</select>
+</mapper>

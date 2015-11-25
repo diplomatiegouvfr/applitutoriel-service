@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="exportPartenaires" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.331000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#8FAFCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F6F8"/>
+		</conditionalStyle>
+	</style>
+	<style name="TexteDefaut" isDefault="true" fontName="Liberation Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+	</style>
+	<style name="Titre" style="TexteDefaut" hAlign="Center" fontSize="12" isBold="true"/>
+	<style name="SousTitre" style="TexteDefaut" fontSize="10"/>
+	<subDataset name="PartenairesDS">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="assistCourriel" class="java.lang.String">
+			<fieldDescription><![CDATA[assistCourriel]]></fieldDescription>
+		</field>
+		<field name="assistNom" class="java.lang.String">
+			<fieldDescription><![CDATA[assistNom]]></fieldDescription>
+		</field>
+		<field name="assistPrenom" class="java.lang.String">
+			<fieldDescription><![CDATA[assistPrenom]]></fieldDescription>
+		</field>
+		<field name="assistTel" class="java.lang.String">
+			<fieldDescription><![CDATA[assistTel]]></fieldDescription>
+		</field>
+		<field name="civilite" class="fr.gouv.diplomatie.applitutoriel.business.bo.Civilite">
+			<fieldDescription><![CDATA[civilite]]></fieldDescription>
+		</field>
+		<field name="class" class="java.lang.Class">
+			<fieldDescription><![CDATA[class]]></fieldDescription>
+		</field>
+		<field name="commentaire" class="java.lang.String">
+			<fieldDescription><![CDATA[commentaire]]></fieldDescription>
+		</field>
+		<field name="dateCrea" class="java.util.Date">
+			<fieldDescription><![CDATA[dateCrea]]></fieldDescription>
+		</field>
+		<field name="dateModif" class="java.util.Date">
+			<fieldDescription><![CDATA[dateModif]]></fieldDescription>
+		</field>
+		<field name="fonction" class="java.lang.String">
+			<fieldDescription><![CDATA[fonction]]></fieldDescription>
+		</field>
+		<field name="id" class="java.lang.Long">
+			<fieldDescription><![CDATA[id]]></fieldDescription>
+		</field>
+		<field name="isClient" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[isClient]]></fieldDescription>
+		</field>
+		<field name="isVIP" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[isVIP]]></fieldDescription>
+		</field>
+		<field name="isVIPFiltre" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[isVIPFiltre]]></fieldDescription>
+		</field>
+		<field name="labelIsVIP" class="java.lang.String">
+			<fieldDescription><![CDATA[labelIsVIP]]></fieldDescription>
+		</field>
+		<field name="nationalite" class="fr.gouv.diplomatie.applitutoriel.business.bo.Pays">
+			<fieldDescription><![CDATA[nationalite]]></fieldDescription>
+		</field>
+		<field name="nom" class="java.lang.String">
+			<fieldDescription><![CDATA[nom]]></fieldDescription>
+		</field>
+		<field name="nomLocal" class="java.lang.String">
+			<fieldDescription><![CDATA[nomLocal]]></fieldDescription>
+		</field>
+		<field name="organisme" class="java.lang.String">
+			<fieldDescription><![CDATA[organisme]]></fieldDescription>
+		</field>
+		<field name="prenom" class="java.lang.String">
+			<fieldDescription><![CDATA[prenom]]></fieldDescription>
+		</field>
+		<field name="prenomLocal" class="java.lang.String">
+			<fieldDescription><![CDATA[prenomLocal]]></fieldDescription>
+		</field>
+		<field name="proAdrCP" class="java.lang.String">
+			<fieldDescription><![CDATA[proAdrCP]]></fieldDescription>
+		</field>
+		<field name="proAdrRue" class="java.lang.String">
+			<fieldDescription><![CDATA[proAdrRue]]></fieldDescription>
+		</field>
+		<field name="proCourriel" class="java.lang.String">
+			<fieldDescription><![CDATA[proCourriel]]></fieldDescription>
+		</field>
+		<field name="proFax" class="java.lang.String">
+			<fieldDescription><![CDATA[proFax]]></fieldDescription>
+		</field>
+		<field name="proTelFixe" class="java.lang.String">
+			<fieldDescription><![CDATA[proTelFixe]]></fieldDescription>
+		</field>
+		<field name="proTelPort" class="java.lang.String">
+			<fieldDescription><![CDATA[proTelPort]]></fieldDescription>
+		</field>
+		<field name="ville" class="fr.gouv.diplomatie.applitutoriel.business.bo.Ville">
+			<fieldDescription><![CDATA[ville]]></fieldDescription>
+		</field>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="listeCriteres" class="fr.gouv.diplomatie.applitutoriel.web.action.forms.FormRecherchePartenaire">
+		<fieldDescription><![CDATA[listeCriteres]]></fieldDescription>
+	</field>
+	<field name="liste" class="java.util.List">
+		<fieldDescription><![CDATA[liste]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement style="Titre" x="0" y="0" width="555" height="20"/>
+				<textElement/>
+				<text><![CDATA[Liste des partenaires]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement style="SousTitre" x="140" y="0" width="64" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{listeCriteres}.getStartDate()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SousTitre" x="0" y="0" width="140" height="20"/>
+				<textElement/>
+				<text><![CDATA[Recherche par date de début :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SousTitre" x="204" y="0" width="86" height="20">
+					<printWhenExpression><![CDATA[$F{listeCriteres}.getEndDate()!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[et par date de fin :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement style="SousTitre" x="290" y="0" width="64" height="20">
+					<printWhenExpression><![CDATA[$F{listeCriteres}.getEndDate()!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{listeCriteres}.getEndDate()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="0" width="555" height="111"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="PartenairesDS">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{liste})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Nom]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{nom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Prenom]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{prenom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="TexteDefaut" x="0" y="0" width="150" height="30"/>
+								<textElement/>
+								<text><![CDATA[Courriel]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="TexteDefaut" x="0" y="0" width="150" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{proCourriel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Organisme]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{organisme}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="52">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="TexteDefaut" x="0" y="0" width="52" height="30"/>
+								<textElement/>
+								<text><![CDATA[VIP]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField pattern="">
+								<reportElement style="TexteDefaut" x="0" y="0" width="52" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{labelIsVIP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Date de modification]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.util.Date"><![CDATA[$F{dateModif}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement style="TexteDefaut" x="430" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Liberation Sans" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" sur"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="TexteDefaut" x="513" y="0" width="40" height="20"/>
+				<textElement>
+					<font fontName="Liberation Sans" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
