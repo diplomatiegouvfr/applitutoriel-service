@@ -19,20 +19,23 @@ applitutoriel-service est la partie service (JEE) de l'application exemple basé
 mvn package
 ```
 
-- Déployer l'application dans un conteneur Tomcat 8
+- Dézipper les fichiers de configuration présents dans l'archive `applitutoriel-service-5.0.X-config.zip`.
+- Déployer l'application dans un conteneur Tomcat 8, en prenant garde que la variable `conf/applitutorielprop` du fichier `context.xml` de l'application, référence bien le chemin des fichiers de configuration dézippés. 
 
 ## Vérification
 
 Pour celà, il suffit de faire appel à un service REST depuis un navigateur exemple : `http://localhost:8080/applitutoriel-service/secteurs`
 
-## Fichiers de configuration de l'application
+## Configuration de l'application
 
-Les différents fichiers de configuration doivent être présent dans le répertoire scpécifié dans le fichier `context.xml` par `conf/applitutorielprop`.
-C'est fichiers sont présents dans l'archive `applitutoriel-service-5.0.0-config.zip`.
 
-### Fichier de configuration du cache pour les accès à la base de données: ehcache.xml
+### Fichiers de configuration de l'application
 
-L'applitutoriel-service a mis en place un exemple d'utilisation de cache __ehcache__ pour les accès aux données dans le DAO  __fr.gouv.diplomatie.applitutoriel.integration.dao.SecteurDAO__
+#### Fichier de configuration du cache pour les accès à la base de données: ehcache.xml
+
+L'applitutoriel-service a mis en place un exemple d'utilisation de cache __ehcache__ pour les accès aux données dans le DAO :   
+
+- __fr.gouv.diplomatie.applitutoriel.integration.dao.SecteurDAO__
 
 ```xml
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../src/config/ehcache.xsd" updateCheck="false"
@@ -49,7 +52,7 @@ L'applitutoriel-service a mis en place un exemple d'utilisation de cache __ehcac
 </ehcache>
 ```
 
-### Fichier de configuration des traces applicatives: logback.xml
+#### Fichier de configuration des traces applicatives: logback.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -89,60 +92,59 @@ L'applitutoriel-service a mis en place un exemple d'utilisation de cache __ehcac
 </configuration>
 ```
 
-### Fichier de configuration d'accès à la base de données: jdbc.properties
+#### Fichier de configuration d'accès à la base de données: jdbc.properties
 
 | Paramètre | Description | Valeur |
 |-----------|-------------|--------|
-|jdbc.driver|Driver SQL|org.hsqldb.jdbcDriver|
-|jdbc.url|Url de connexion à la BDD|jdbc:hsqldb:mem:APPLITUTORIEL_DB|
-|jdbc.username|Utilisateur pour la connexion|sa|
-|jdbc.password|Mot de passe de l’utilisateur| |
+| jdbc.driver | Driver SQL | org.hsqldb.jdbcDriver |
+| jdbc.url | Url de connexion à la BDD|jdbc:hsqldb:mem:APPLITUTORIEL_DB |
+| jdbc.username | Utilisateur pour la connexion | sa |
+| jdbc.password | Mot de passe de l’utilisateur | |
 [Configuration des jdbc - Serveur d’application]
 
-### Fichier de configuration d'accès au serveur mail : mail.properties  
+#### Fichier de configuration d'accès au serveur mail : mail.properties  
 
 | Paramètre | Description | Valeur |
 |-----------|-------------|--------|
-|mail.smtp.host|Serveur de mail|Ex : smtp.serveur.fr|
-|mail.smtp.username|Nom du compte utilisateur| |
-|mail.smtp.password|Mot de passe du compte utilisateur| |
-|mail.debug-Activer ou non les traces de débogage pour l’envoi des mails|true|
+| mail.smtp.host | Serveur de mail | Ex : smtp.serveur.fr |
+| mail.smtp.username | Nom du compte utilisateur | |
+| mail.smtp.password | Mot de passe du compte utilisateur | |
+| mail.debug | Activer ou non les traces de débogage pour l’envoi des mails | true |
 [Configuration des mails - Serveur d’application]
 
 
-### Fichier de configuration d'accès au serveur mail : mailService.properties  
+#### Fichier de configuration d'accès au serveur mail : mailService.properties  
 
 | Paramètre | Description | Valeur |
 |-----------|-------------|--------|
 | mail.application.name | Nom de l'application | Applitutoriel |
 | mail.application.url | URL de l'application | http://localhost:18080/applitutoriel |
 | mail.messageid.domain | nom de domaine pour le MessageID de l'entete SMTP | diffusion.diplomatie.gouv.fr |
-| mail.contact.to | Destinataires du mail de contact | destinataire@mail.com, destinataire2@mail.com |
+| mail.contact.to | Destinataires du mail de contact | "destinataire@mail.com", "destinataire2@mail.com" |
 | mail.contact.object | Objet du mail de contact | [%s] Un utilisateur de l'application (%s %s) a envoyé un mail de contact |
 | mail.contact.body | chemein du template velocity du corps | fr/gouv/diplomatie/applitutoriel/business/service/ModeleMailContact.vm |
+[Configuration du service de mail - Serveur d’application]
 
-### Fichier pour l'accès au web services: webservices.properties
+#### Fichier pour l'accès au web services: webservices.properties
 
 | Paramètre | Description | Valeur |
 |-----------|-------------|--------|
-|applitutoriel.keyStore|Chemin vers le fichier de keystore|**/etc/ssl/certs/client.ks**|
-|applitutoriel.keyStorePassword|Mot de passe pour le keystore|Client|
-|applitutoriel.aliasCertificat|Alias sur le certificat|client|
-|applitutoriel.algoKeyStore|Algorithme utilisé pour le keystore|SunX509|
-|applitutoriel.typeKeyStore|Type de clé pour le keystore|JKS|
-|applitutoriel.trustStore|Chemin vers le fichier de truststore|**/etc/ssl/certs/client_truststore.jks**|
-|applitutoriel.trustStorePassword|Mot de passe pour le truststore|client|
-|applitutoriel.algoTrustStore|Algorithme utilisé pour le truststore|SunX509|
-|applitutoriel.typeTrustStore|Type de clé pour le truststore|JKS|
-|applitutoriel.HelloService.endpoint|Endpoint du webservice HelloService|Exemple : <br/>https://localhost:8443/mockHelloServiceSoapBinding|
-[Configuration de la liste des thèmes disponibles - Serveur d’application]
+| applitutoriel.keyStore | Chemin vers le fichier de keystore | **/etc/ssl/certs/client.ks** |
+| applitutoriel.keyStorePassword | Mot de passe pour le keystore | Client |
+| applitutoriel.aliasCertificat | Alias sur le certificat | client |
+| applitutoriel.algoKeyStore | Algorithme utilisé pour le keystore | SunX50 |
+| applitutoriel.typeKeyStore | Type de clé pour le keystore | JKS |
+| applitutoriel.trustStore | Chemin vers le fichier de truststore | **/etc/ssl/certs/client_truststore.jks** |
+| applitutoriel.trustStorePassword | Mot de passe pour le truststore|client|
+| applitutoriel.algoTrustStore | Algorithme utilisé pour le truststore | SunX509 |
+| applitutoriel.typeTrustStore | Type de clé pour le truststore | JKS |
+| applitutoriel.HelloService.endpoint| Endpoint du webservice HelloService | Exemple : <br/>https://localhost:8443/mockHelloServiceSoapBinding |
 
 Attention l’application ne peut pas démarrer si les chemins vers les fichiers keyStore et trustStore ne sont pas correctement configurés.
 
-
 ## Licence
 
-applitutoriel-service est sous [licence cecill 2.1](./LICENCE.md).
+applitutoriel-service est sous [licence cecill 2.1](./LICENSE.md).
 
-Site web : [![http://www.cecill.info](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)
+Site web : [http://www.cecill.info](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 

@@ -53,7 +53,7 @@ import fr.gouv.diplomatie.applitutoriel.business.service.PaysService;
  * @since 1.0 - 9 févr. 2015
  */
 @RestController
-@RequestMapping(value = "/pays", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/partenaires/pays", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class PaysController {
 
     @Resource

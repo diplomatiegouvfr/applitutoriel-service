@@ -54,7 +54,7 @@ import fr.gouv.diplomatie.applitutoriel.business.service.VilleService;
  */
 
 @RestController
-@RequestMapping(value = "/villes", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/partenaires/villes", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class VilleController {
 
     @Resource

@@ -10,12 +10,6 @@
 
 	<!-- ======================== METROLOGIE ================================= -->
 	<!-- metrologieAspect -->
-	<bean id="metrologieController" class="hornet.framework.metrologie.aspect.MetrologieAspect">
-		<constructor-arg index="0">
-			<null />
-		</constructor-arg>
-		<constructor-arg index="1" value="CONTROLLEUR" />
-	</bean>
 	<bean id="metrologieService" class="hornet.framework.metrologie.aspect.MetrologieAspect">
 		<constructor-arg index="0" value="CONTROLLEUR" />
 		<constructor-arg index="1" value="SERVICE" />
@@ -26,11 +20,6 @@
 	</bean>
 
 	<aop:config proxy-target-class="true" expose-proxy="true">
-		<aop:aspect id="metrologieAspectController" ref="metrologieController">
-			<aop:pointcut id="metrologieControllerPointcut"
-				expression="execution(public * fr.gouv.diplomatie..*Controller.*(..))" />
-			<aop:around pointcut-ref="metrologieControllerPointcut" method="loggerTraceMetrologie" />
-		</aop:aspect>
 		<aop:aspect id="metrologieAspectService" ref="metrologieService">
 			<aop:pointcut id="metrologieServicePointcut"
 				expression="execution(public * fr.gouv.diplomatie..*ServiceImpl.*(..))" />

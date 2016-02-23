@@ -83,7 +83,7 @@ public class PartenaireController {
     @Resource
     private PhotoService photoService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/consulter/{id}","/editer/{id}"}, method = RequestMethod.GET)
     public Partenaire lire(@PathVariable final Long id) {
 
         final Partenaire partenaire = partenaireService.lirePartenaire(id);
@@ -167,7 +167,7 @@ public class PartenaireController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/sauvegarder", method = RequestMethod.POST)
     public Partenaire ajouter(@RequestBody final Partenaire partenaire) {
 
         final Partenaire ajout = partenaireService.ajouterPartenaire(partenaire);
@@ -175,7 +175,7 @@ public class PartenaireController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/sauvegarder/{id}", method = RequestMethod.PUT)
     public void modifier(@PathVariable final Long id, @RequestBody final Partenaire partenaire) {
 
         partenaire.setId(id);
@@ -183,7 +183,7 @@ public class PartenaireController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/supprimer/{id}", method = RequestMethod.DELETE)
     public void supprimer(@PathVariable final Long id) {
 
         partenaireService.supprimerPartenaire(id);
@@ -191,22 +191,22 @@ public class PartenaireController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(value = "/suppression", method = RequestMethod.POST)
-    public List<Long> supprimerEnMasse(@RequestBody final List<Long> listeIds) {
+    public List<Long> supprimerEnMasse(@RequestBody final List<Partenaire> listePartenaires) {
 
         final List<Long> ids = new ArrayList<Long>();
         LOG.debug("Demande de supression en masse");
         final BusinessListException exList = new BusinessListException();
         Boolean hasErrors = false;
-        for (final Long id : listeIds) {
-            LOG.debug("Suppression du partenaire d'id {}", id);
+        for (final Partenaire p : listePartenaires) {
+            LOG.debug("Suppression du partenaire d'id {}", p.getId());
             try {
-                supprimer(id);
+                supprimer(p.getId());
                 // on retourne les ids correctements supprimés
-                ids.add(id);
+                ids.add(p.getId());
                 // on ajoute aussi les succès dans l'exception pour récapituler
-                exList.addBusinessException(new BusinessException("200", new String[]{id.toString()}));
+                exList.addBusinessException(new BusinessException("200", new String[]{p.getId().toString()}));
             } catch (final BusinessException e) {
-                final BusinessException be = new BusinessException(id.toString());
+                final BusinessException be = new BusinessException(p.getId().toString());
                 exList.addBusinessException(be);
                 hasErrors = true;
             }

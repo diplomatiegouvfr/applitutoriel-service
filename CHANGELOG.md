@@ -1,12 +1,10 @@
+# Applitutoriel-service 5.0.1
 
-# Applitutoriel-service 5.0.0-rc4
-- 53139 - Refactoring des pom parent (bath, orm, reporting)
+- 0055307: [hornet] FullSPA : correspondance des urls avec le serveur (heurtemattes) - traité.
+- 0055306: [hornet] Ajout des headers CORS : Access-Control-Allow-Headers (heurtemattes) - traité.
+- 0054165: [hornet] MetrologieFilter : Controller toujours à zéro (bozecm) - traité.
 
-# Applitutoriel-service 5.0.0-rc2
-- 51664 - Renommer le fichier logback
-- 53107 - Suppression des dépendances directes
-
-# Applitutoriel-service 5.0.0-rc1
+# Applitutoriel-service 5.0.0
 
 - 51715  -  EXP_INF_IAT  -  En tant que Exploitant je peux installer l'applitutoriel
 - 51716  -  INT_PIC_CAT  -  En tant que Intégrateur je peux construire l'applitutoriel
@@ -75,7 +73,7 @@
 - 51791  -  DEV_APT_HAN  -  En tant que Developpeur je peux utiliser React pour le template de page
 - 51792  -  DEV_DEV_DTS  -  En tant que Developpeur je peux mettre des point d'arret dans les TS 
 - 51793  -  DEV_DEV_SCO  -  En tant que Developpeur je peux Lancer les application sans ligne de commande
-- 51794  -  DEV_TEM_TJS  -  En tant que Developpeur je peux Constuire une application Node JS basée sur yeoman (thème Intranet)
+- 51794  -  DEV_TEM_TJS  -  En tant que Developpeur je peux Constuire une application Node JS basée sur yeoman (thème default)
 - 51795  -  DEV_TEM_TJA  -  En tant que Developpeur je peux Constuire une application Service basée sur Maven (Archetype)
 - 51796  -  UTI_APT_ECS  -  En tant que Utilisateur je peux Exporter les données du tableau partenaire au format CSV
 - 51797  -  UTI_APT_EXL  -  En tant que Utilisateur je peux Exporter les données du tableau partenaire au format EXL

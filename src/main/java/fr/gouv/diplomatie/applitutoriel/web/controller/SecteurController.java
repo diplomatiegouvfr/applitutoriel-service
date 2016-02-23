@@ -97,7 +97,7 @@ public class SecteurController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/creer", method = RequestMethod.POST)
     public Secteur ajouterSecteur(@RequestBody final SecteurAjouterDTOIn dtoIn) {
 
         final Secteur secteur = secteurService.ajouterSecteur(dtoIn.getNom(), dtoIn.getDesc(), dtoIn.getUser());
@@ -105,7 +105,7 @@ public class SecteurController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/sauvegarder/{id}", method = RequestMethod.PUT)
     public void modifierSecteur(@PathVariable final Long id, @RequestBody final SecteurModifierDTOIn secteur) {
 
     	Secteur sec = new Secteur();
@@ -117,7 +117,7 @@ public class SecteurController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/supprimer/{id}", method = RequestMethod.DELETE)
     public void supprimerSecteur(@PathVariable final Long id) {
 
     	secteurService.supprimerSecteur(id);

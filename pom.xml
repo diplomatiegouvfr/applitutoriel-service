@@ -42,12 +42,12 @@
 	<parent>
 		<groupId>fr.gouv.diplomatie.hornet</groupId>
 		<artifactId>hornet-service-parent</artifactId>
-		<version>5.0.0</version>
+		<version>5.0.1</version>
 	</parent>
 
 	<groupId>fr.gouv.diplomatie.applitutoriel</groupId>
 	<artifactId>applitutoriel-service</artifactId>
-	<version>5.0.0</version>
+	<version>5.0.1</version>
 	<packaging>war</packaging>
 
 	<inceptionYear>2015</inceptionYear>
@@ -132,11 +132,18 @@
 				<artifactId>hornet-service-typescript-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- jasperreports-maven-plugin -->
+			<!-- jasperreports-plugin -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jasperreports-maven-plugin</artifactId>
-			</plugin>
+	            <groupId>com.alexnederlof</groupId>
+	            <artifactId>jasperreports-plugin</artifactId>
+	            <configuration>
+	            	<!-- Sortie détaillée dans la console lors de l'exécution -->
+	                <!-- <verbose>true</verbose> -->
+	                <!-- Nombre de threads à augmenter pour accélerer la compilation 
+	                lorsqu'il y a beaucoup de jrxml -->
+	                <!-- <numberOfThreads>4</numberOfThreads> -->
+	            </configuration>
+	        </plugin>
 
 			<!-- maven-resources-plugin -->
 			<plugin>

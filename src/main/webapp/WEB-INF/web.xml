@@ -38,15 +38,18 @@
 -->
 <web-app id="AppliTutoriel" version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
-	http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+	http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	metadata-complete="true">
 
 	<display-name>applitutoriel</display-name>
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>5.0.0</param-value>
+		<param-value>5.0.1</param-value>
 	</context-param>
-
+	
+	<absolute-ordering />
+	
 	<session-config>
 	    <session-timeout>1</session-timeout>
 	    <cookie-config>
