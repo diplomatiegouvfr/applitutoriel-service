@@ -8,7 +8,7 @@ applitutoriel-service est la partie service (JEE) de l'application exemple basé
 - tomcat 8.X
 - maven 3.2.5
 - openJdk 8
-- hornet-service 5.X 
+- hornet-service 5.1.X 
 
 ## Installation
 
@@ -19,7 +19,7 @@ applitutoriel-service est la partie service (JEE) de l'application exemple basé
 mvn package
 ```
 
-- Dézipper les fichiers de configuration présents dans l'archive `applitutoriel-service-5.0.X-config.zip`.
+- Dézipper les fichiers de configuration présents dans l'archive `applitutoriel-service-5.1.X-config.zip`.
 - Déployer l'application dans un conteneur Tomcat 8, en prenant garde que la variable `conf/applitutorielprop` du fichier `context.xml` de l'application, référence bien le chemin des fichiers de configuration dézippés. 
 
 ## Vérification
@@ -142,9 +142,39 @@ L'applitutoriel-service a mis en place un exemple d'utilisation de cache __ehcac
 
 Attention l’application ne peut pas démarrer si les chemins vers les fichiers keyStore et trustStore ne sont pas correctement configurés.
 
+### Services REST
+
+|       Ressources           | Verbe  | Description                                       |
+|----------------------------|--------|---------------------------------------------------|
+| partenaires                | GET    | listerArborescenceOrganismePartenaire             |
+|                            | POST   | Creation d'un partenaire                          |
+| partenaires/recherche      | POST   | Recherche des partenaires suivants des critères   |
+| partenaires/id             | GET    | Recuperation d'un partenaire                      |
+|                            | PUT    | Modification d'un partenaire                      |
+|                            | DELETE | Suppression d'un partenaire                       |
+| partenaires/id/photo       | GET    | Recuperation de la photo associée au partenaire   |
+| partenaires/suppression    | POST   | Suppression masse des partenaires                 |
+| secteurs                   | GET    | Liste des secteurs                                |
+|                            | POST   | Creation d'un secteur                             |
+| secteurs/rechercher        | POST   | Recherche des secteurs suivants des critères      |
+| secteurs/id                | GET    | Recuperation d'un secteur                         |
+|                            | PUT    | Modification d'un secteur                         |
+|                            | DELETE | Suppression d'un secteur                          |
+| produits                   | GET    | Liste des produits                                |
+|                            | POST   | Creation d'un produit                             |
+| repartitions/produits      | GET    | Repartitions des produits                         |
+| referentiel/pays           | GET    | Liste tous les pays                               |
+| referentiel/pays/id/villes | GET    | Liste tous les pays                               |
+| referentiel/nationalites   | GET    | Liste les nationnalité                            |
+| referentiel/nationalites   | POST   | Liste les nationnalité suivant criteres           |
+| referentiel/villes         | GET    | Liste toutes les villes                           |
+| referentiel/villes/id      | GET    | Recuperation d'une ville                          |
+| contact/email              | POST   | Envoie un email de contact                        |
+| utilisateurs/auth          | POST   | Authentification                                  |
+
 ## Licence
 
-applitutoriel-service est sous [licence cecill 2.1](./LICENSE.md).
+`applitutoriel-service` est sous [licence cecill 2.1](./LICENSE.md).
 
 Site web : [http://www.cecill.info](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 

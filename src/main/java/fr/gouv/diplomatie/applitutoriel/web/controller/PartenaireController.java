@@ -1,46 +1,61 @@
 /**
- * ﻿Copyright Ministère des Affaires étrangères et du Développement international , 22 avril 2015
- * https://adullact.net/projects/hornet/
+ * Copyright ou © ou Copr. Ministère de l'Europe et des Affaires étrangères (2017)
+ * <p/>
+ * pole-architecture.dga-dsi-psi@diplomatie.gouv.fr
+ * <p/>
+ * Ce logiciel est un programme informatique servant à faciliter la création d'applications Web conformément
+ * aux référentiels généraux français : RGI, RGS et RGAA
+ * <p/>
+ * Ce logiciel est régi par la licence CeCILL soumise au droit français et respectant les principes de
+ * diffusion des logiciels libres. Vous pouvez utiliser, modifier et/ou redistribuer ce programme sous les
+ * conditions de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA sur le site
+ * "http://www.cecill.info".
+ * <p/>
+ * En contrepartie de l'accessibilité au code source et des droits de copie, de modification et de
+ * redistribution accordés par cette licence, il n'est offert aux utilisateurs qu'une garantie limitée. Pour
+ * les mêmes raisons, seule une responsabilité restreinte pèse sur l'auteur du programme, le titulaire des
+ * droits patrimoniaux et les concédants successifs.
+ * <p/>
+ * A cet égard l'attention de l'utilisateur est attirée sur les risques associés au chargement, à
+ * l'utilisation, à la modification et/ou au développement et à la reproduction du logiciel par l'utilisateur
+ * étant donné sa spécificité de logiciel libre, qui peut le rendre complexe à manipuler et qui le réserve
+ * donc à des développeurs et des professionnels avertis possédant des connaissances informatiques
+ * approfondies. Les utilisateurs sont donc invités à charger et tester l'adéquation du logiciel à leurs
+ * besoins dans des conditions permettant d'assurer la sécurité de leurs systèmes et ou de leurs données et,
+ * plus généralement, à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+ * <p/>
+ * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez pris connaissance de la licence
+ * CeCILL, et que vous en avez accepté les termes.
+ * <p/>
+ * <p/>
+ * Copyright or © or Copr. Ministry for Europe and Foreign Affairs (2017)
+ * <p/>
+ * pole-architecture.dga-dsi-psi@diplomatie.gouv.fr
+ * <p/>
+ * This software is a computer program whose purpose is to facilitate creation of web application in
+ * accordance with french general repositories : RGI, RGS and RGAA.
+ * <p/>
+ * This software is governed by the CeCILL license under French law and abiding by the rules of distribution
+ * of free software. You can use, modify and/ or redistribute the software under the terms of the CeCILL
+ * license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+ * <p/>
+ * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by
+ * the license, users are provided only with a limited warranty and the software's author, the holder of the
+ * economic rights, and the successive licensors have only limited liability.
+ * <p/>
+ * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying
+ * and/or developing or reproducing the software by the user in light of its specific status of free software,
+ * that may mean that it is complicated to manipulate, and that also therefore means that it is reserved for
+ * developers and experienced professionals having in-depth computer knowledge. Users are therefore encouraged
+ * to load and test the software's suitability as regards their requirements in conditions enabling the
+ * security of their systems and/or data to be ensured and, more generally, to use and operate it in the same
+ * conditions as regards security.
+ * <p/>
+ * The fact that you are presently reading this means that you have had knowledge of the CeCILL license and
+ * that you accept its terms.
  *
- *
- * Ce logiciel est un programme informatique servant à faciliter la création
- *  d'applications Web accessibles conforémement au RGAA et performantes.
- *
- * Ce logiciel est régi par la licence CeCILL v2.1 soumise au droit français et
- * respectant les principes de diffusion des logiciels libres. Vous pouvez
- * utiliser, modifier et/ou redistribuer ce programme sous les conditions
- * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
- * sur le site "http://www.cecill.info".
- *
- * En contrepartie de l'accessibilité au code source et des droits de copie,
- * de modification et de redistribution accordés par cette licence, il n'est
- * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
- * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
- * titulaire des droits patrimoniaux et les concédants successifs.
- *
- * A cet égard  l'attention de l'utilisateur est attirée sur les risques
- * associés au chargement,  à l'utilisation,  à la modification et/ou au
- * développement et à la reproduction du logiciel par l'utilisateur étant
- * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
- * manipuler et qui le réserve donc à des développeurs et des professionnels
- * avertis possédant  des  connaissances  informatiques approfondies.  Les
- * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
- * logiciel à leurs besoins dans des conditions permettant d'assurer la
- * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
- * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
- *
- * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
- * pris connaissance de la licence CeCILL, et que vous en avez accepté les
- * termes.
  */
 package fr.gouv.diplomatie.applitutoriel.web.controller;
-
-import hornet.framework.exception.BusinessException;
-import hornet.framework.exception.BusinessListException;
-import hornet.framework.web.converter.HornetMediaType;
-import hornet.framework.web.exception.ObjectNotFoundException;
-import hornet.framework.web.table.Pagination;
-import hornet.framework.web.tree.bo.ITreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +79,15 @@ import fr.gouv.diplomatie.applitutoriel.business.service.PartenaireService;
 import fr.gouv.diplomatie.applitutoriel.business.service.PhotoService;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.PartenaireRechercherDTOIn;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.TablePartenaire;
+import hornet.framework.exception.BusinessException;
+import hornet.framework.exception.BusinessListException;
+import hornet.framework.exception.ObjectNotFoundException;
+import hornet.framework.web.converter.HornetMediaType;
+import hornet.framework.web.table.Pagination;
+import hornet.framework.web.tree.bo.ITreeNode;
 
 /**
- * @author MAEDI
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  * @since 1.0 - 3 févr. 2015
  */
 @RestController
@@ -83,38 +104,46 @@ public class PartenaireController {
     @Resource
     private PhotoService photoService;
 
-    @RequestMapping(value = {"/consulter/{id}","/editer/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {
+    "/{id}"}, method = RequestMethod.GET)
     public Partenaire lire(@PathVariable final Long id) {
 
-        final Partenaire partenaire = partenaireService.lirePartenaire(id);
+        final Partenaire partenaire = this.partenaireService.lirePartenaire(id);
 
         if (partenaire == null) {
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException(new String[]{ String.valueOf(id) });
         }
 
         return partenaire;
     }
 
-    @RequestMapping(value = "/photo/{idPhoto}", method = RequestMethod.GET)
-    public Photo lirePhotoDuPartenaire(@PathVariable final Long idPhoto) {
+    @RequestMapping(value = "/{idPartenaire}/photo", method = RequestMethod.GET)
+    public Photo lirePhotoDuPartenaire(@PathVariable final Long idPartenaire) {
 
-        final Photo photo = photoService.lirePhoto(idPhoto);
+        Photo photo = null;
+
+        final Partenaire partenaire = this.partenaireService.lirePartenaire(idPartenaire);
+
+        if (partenaire != null && partenaire.getPhoto() != null && partenaire.getPhoto().getId() != null) {
+            photo = this.photoService.lirePhoto(partenaire.getPhoto().getId());
+        }
+
         return photo;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ITreeNode lister() {
 
-        final ITreeNode tree = partenaireService.listerArborescenceOrganismePartenaire();
+        final ITreeNode tree = this.partenaireService.listerArborescenceOrganismePartenaire();
         return tree;
     }
 
-    @RequestMapping(value = "/rechercher", method = RequestMethod.POST, produces = {
+    @RequestMapping(value = "/recherche", method = RequestMethod.POST, produces = {
         MediaType.APPLICATION_JSON_VALUE,
         HornetMediaType.APPLICATION_EXCEL_VALUE,
         HornetMediaType.TEXT_CSV_VALUE,
         HornetMediaType.APPLICATION_PDF_VALUE})
-    public TablePartenaire rechercher(@RequestBody final PartenaireRechercherDTOIn dtoIn) {
+    public TablePartenaire rechercher(@RequestBody(required = false) final PartenaireRechercherDTOIn dtoIn) {
 
         LOG.debug("Demande de recherche");
 
@@ -122,7 +151,7 @@ public class PartenaireController {
         dtoOut.setListeCriteres(dtoIn.getCriteres());
 
         List<Partenaire> liste =
-                    partenaireService.listerParCriteresAvecTri(dtoIn.getCriteres(), dtoIn.getSort());
+                    this.partenaireService.listerParCriteresAvecTri(dtoIn.getCriteres(), dtoIn.getSort() != null ? dtoIn.getSort()[0] : null);
         final int totalItems = liste.size();
 
         final Pagination pagination = dtoIn.getPagination();
@@ -132,19 +161,13 @@ public class PartenaireController {
             if (pagination.getPageIndex() == 0) {
                 pagination.setPageIndex(1);
             }
-            
-            int itemsPerPage =
+
+            final int itemsPerPage =
                         pagination.getItemsPerPage() == 0 ? NB_ITEMS_PAR_PAGE : pagination.getItemsPerPage();
 
-            // Cas "Afficher tout"
-            if (itemsPerPage == -1) {
-                itemsPerPage = Integer.MAX_VALUE;
-            }
-            // Recuperation nombrePages
-            int nombrePages = totalItems / itemsPerPage;
-            if (totalItems % itemsPerPage > 0 || nombrePages == 0) {
-                nombrePages++;
-            }
+            // Recuperation du nombre total de pages
+            final int nombrePages = Math.max(1, (int) Math.ceil((double) totalItems / (double) itemsPerPage));
+
             // Recalcul indexPage
             final int indexPagePartenaires = Math.min(pagination.getPageIndex(), nombrePages);
             pagination.setPageIndex(indexPagePartenaires);
@@ -167,26 +190,26 @@ public class PartenaireController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/sauvegarder", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public Partenaire ajouter(@RequestBody final Partenaire partenaire) {
 
-        final Partenaire ajout = partenaireService.ajouterPartenaire(partenaire);
+        final Partenaire ajout = this.partenaireService.ajouterPartenaire(partenaire);
         return ajout;
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = "/sauvegarder/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void modifier(@PathVariable final Long id, @RequestBody final Partenaire partenaire) {
 
         partenaire.setId(id);
-        partenaireService.modifierPartenaire(partenaire);
+        this.partenaireService.modifierPartenaire(partenaire);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/supprimer/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void supprimer(@PathVariable final Long id) {
 
-        partenaireService.supprimerPartenaire(id);
+        this.partenaireService.supprimerPartenaire(id);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
@@ -200,13 +223,13 @@ public class PartenaireController {
         for (final Partenaire p : listePartenaires) {
             LOG.debug("Suppression du partenaire d'id {}", p.getId());
             try {
-                supprimer(p.getId());
+                this.supprimer(p.getId());
                 // on retourne les ids correctements supprimés
                 ids.add(p.getId());
                 // on ajoute aussi les succès dans l'exception pour récapituler
-                exList.addBusinessException(new BusinessException("200", new String[]{p.getId().toString()}));
+                exList.addBusinessException(new BusinessException("IN-PA-RPA-01", new String[]{p.getPrenom(), p.getNom(), String.valueOf(p.getId())}));
             } catch (final BusinessException e) {
-                final BusinessException be = new BusinessException(p.getId().toString());
+                final BusinessException be = new BusinessException("ER-PA-RPA-07", new String[]{p.getPrenom(), p.getNom()});
                 exList.addBusinessException(be);
                 hasErrors = true;
             }

@@ -15,7 +15,8 @@ http://www.springframework.org/schema/jdbc http://www.springframework.org/schema
 	</bean>
 
 	<!-- Initialisation de la datasource -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp.ManagedBasicDataSource">
+  	    <constructor-arg value="org.apache.commons.dbcp:ManagedBasicDataSource=$jdbc{jdbc.jmxname}"/>
 		<property name="driverClassName" value="$jdbc{jdbc.driver}" />
 		<property name="url" value="$jdbc{jdbc.url}" />
 		<property name="username" value="$jdbc{jdbc.username}" />
@@ -36,10 +37,13 @@ http://www.springframework.org/schema/jdbc http://www.springframework.org/schema
 	</bean>
 
 	<!-- Initialisation de la base de données -->
-	<jdbc:initialize-database data-source="dataSource">
-		<jdbc:script location="classpath:createTables.sql" />
-		<jdbc:script location="classpath:initData.sql" />
+	<jdbc:initialize-database data-source="dataSource" enabled="$jdbc{jdbc.hsqldb}">
+		<jdbc:script location="classpath:sql/01-createTablesHsqldb.sql" />
+		<jdbc:script location="classpath:sql/02-initDataHsqldb.sql" />
 	</jdbc:initialize-database>
 
-
+	<jdbc:initialize-database data-source="dataSource" enabled="$jdbc{jdbc.postgres}">
+		<jdbc:script location="classpath:sql/01-createTablesPostgres.sql" />
+		<jdbc:script location="classpath:sql/02-initDataPostgres.sql" />
+	</jdbc:initialize-database>
 </beans>

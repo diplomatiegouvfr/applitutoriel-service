@@ -8,15 +8,15 @@
 
 	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Photo" id="mapPhoto">
 		<result column="ID_PHOTO" property="id" />
-		<result column="NOM" property="nom" />
+		<result column="FILENAME" property="fileName" />
 		<result column="MIMETYPE" property="mimeType" />
 		<result column="SIZE" property="size" />
 		<result column="ENCODING" property="encoding" />		
-		<result column="CONTENU" property="buffer" />
+		<result column="DATA" property="data" />
 	</resultMap>
 	
 	<select id="selectById" resultMap="mapPhoto">
-        SELECT ID_PHOTO, NOM, MIMETYPE, ENCODING, SIZE, CONTENU
+        SELECT ID_PHOTO, FILENAME, MIMETYPE, ENCODING, SIZE, DATA
         FROM PHOTO
         WHERE ID_PHOTO = #{id};
     </select>
@@ -25,11 +25,11 @@
 		useGeneratedKeys="true" keyProperty="id" keyColumn="ID_PHOTO" >
 		INSERT INTO PHOTO
 		(
-		 NOM,MIMETYPE,ENCODING,SIZE,CONTENU
+		 FILENAME,MIMETYPE,ENCODING,SIZE,DATA
 		)
 		VALUES
 		(
-		#{nom}, #{mimeType}, #{encoding},#{size}, #{buffer}
+		#{fileName}, #{mimeType}, #{encoding},#{size}, #{data}
 		);	
 	</insert>
 	

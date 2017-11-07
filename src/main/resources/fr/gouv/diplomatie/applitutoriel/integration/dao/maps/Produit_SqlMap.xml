@@ -54,4 +54,16 @@
 		SELECT SECTEUR.SEC_NOM, COUNT(*) as "nbProduits" 
 		FROM PRODUIT INNER JOIN SECTEUR ON PRODUIT.ID_SECTEUR = SECTEUR.ID_SECTEUR GROUP BY SECTEUR.SEC_NOM;
     </select>
+    
+   	<insert id="insert" parameterType="fr.gouv.diplomatie.applitutoriel.business.bo.Produit"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="ID_PRODUIT" >
+		INSERT INTO PRODUIT
+		(
+		PRO_NOM, PRO_DESCR, ID_SECTEUR
+		)
+		VALUES
+		(
+		#{nom}, #{desc}, #{secteur.id}
+		);
+	</insert>
 </mapper>

@@ -14,6 +14,7 @@
 		<result column="PAR_PRENOM" property="prenom" />
 		<result column="PAR_NOM_LOCAL" property="nomLocal" />
 		<result column="PAR_PRENOM_LOCAL" property="prenomLocal" />
+		<result column="PAR_DATE_NAISSANCE" property="dateNaissance"/>
 		<result column="PAR_FONCTION" property="fonction" />
 		<result column="PAR_PRO_TEL_FIXE" property="proTelFixe" />
 		<result column="PAR_PRO_TEL_PORT" property="proTelPort" />
@@ -37,6 +38,41 @@
 		
 	</resultMap>
 
+	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire" id="mapPartenaireAvecProduits">
+		<result column="ID_PARTENAIRE" property="id" />
+		
+		<result column="PAR_IS_CLIENT" property="isClient" />
+		<result column="PAR_IS_VIP" property="isVIP" />
+		<result column="PAR_NOM" property="nom" />
+		<result column="PAR_PRENOM" property="prenom" />
+		<result column="PAR_NOM_LOCAL" property="nomLocal" />
+		<result column="PAR_PRENOM_LOCAL" property="prenomLocal" />
+		<result column="PAR_DATE_NAISSANCE" property="dateNaissance"/>
+		<result column="PAR_FONCTION" property="fonction" />
+		<result column="PAR_PRO_TEL_FIXE" property="proTelFixe" />
+		<result column="PAR_PRO_TEL_PORT" property="proTelPort" />
+		<result column="PAR_PRO_COURRIEL" property="proCourriel" />
+		<result column="PAR_PRO_FAX" property="proFax" />
+		<result column="PAR_PRO_ADR_CP" property="proAdrCP" />
+		<result column="PAR_PRO_ADR_RUE" property="proAdrRue" />
+		<result column="PAR_ASSIST_NOM" property="assistNom" />
+		<result column="PAR_ASSIST_PRENOM" property="assistPrenom" />
+		<result column="PAR_ASSIST_TEL" property="assistTel" />
+		<result column="PAR_ASSIST_COURRIEL" property="assistCourriel" />
+		<result column="PAR_COMMENTAIRE" property="commentaire" />
+		<result column="PAR_ORGANISME" property="organisme" />
+		<result column="PAR_DATE_CREATION" property="dateCrea" />
+		<result column="PAR_DATE_MODIFICATION" property="dateModif" />
+		<result column="SATISFACTION" property="satisfaction" />
+		<association column="ID_VILLE" property="ville" resultMap="ville.mapVille" />
+		<association column="ID_CIVILITE" property="civilite" resultMap="civilite.mapCivilite" />
+		<association column="ID_PHOTO" property="photo" resultMap="photo.mapPhoto" />
+		<association column="ID_PAYS" property="nationalite" resultMap="pays.mapPaysPartenaireNationalite" />
+		<collection property="listeProduit" javaType="ArrayList" ofType="fr.gouv.diplomatie.applitutoriel.business.bo.Produit"
+		resultMap="produit.mapProduit">
+    	</collection>
+	</resultMap>
+	
 	<resultMap type="fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire" id="mapPartenaireCriteres">
 		<result column="ID_PARTENAIRE" property="id" />
 		<result column="PAR_IS_CLIENT" property="isClient" />
@@ -54,10 +90,10 @@
 		SELECT
 		ID_PARTENAIRE,
 		VILLE.*, PAYS.*,
-		CIVILITE.*,PHOTO.ID_PHOTO,PHOTO.NOM,PHOTO.MIMETYPE,PHOTO.SIZE,
+		CIVILITE.*,PHOTO.ID_PHOTO,PHOTO.FILENAME,PHOTO.MIMETYPE,PHOTO.SIZE,
 		PAR_IS_CLIENT, PAR_IS_VIP,
 		nationalite.ID_PAYS as idNationalite, nationalite.PAY_NATIONALITE as libelleNationalite,
-		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_FONCTION,
+		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_DATE_NAISSANCE, PAR_FONCTION,
 		PAR_PRO_TEL_FIXE, PAR_PRO_TEL_PORT, PAR_PRO_COURRIEL, PAR_PRO_FAX,
 		PAR_PRO_ADR_CP, PAR_PRO_ADR_RUE,
 		PAR_ASSIST_NOM, PAR_ASSIST_PRENOM, PAR_ASSIST_TEL, PAR_ASSIST_COURRIEL,
@@ -71,13 +107,36 @@
 		LEFT OUTER JOIN PHOTO ON PHOTO.ID_PHOTO = PARTENAIRE.ID_PHOTO 
 	</sql>
 
+	<sql id="selectPartenaireAvecProduits_fragment">
+		SELECT
+		PARTENAIRE.ID_PARTENAIRE,
+		VILLE.*, PAYS.*,
+		CIVILITE.*,PHOTO.ID_PHOTO,PHOTO.FILENAME,PHOTO.MIMETYPE,PHOTO.SIZE,
+		PAR_IS_CLIENT, PAR_IS_VIP,
+		nationalite.ID_PAYS as idNationalite, nationalite.PAY_NATIONALITE as libelleNationalite,
+		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_DATE_NAISSANCE, PAR_FONCTION,
+		PAR_PRO_TEL_FIXE, PAR_PRO_TEL_PORT, PAR_PRO_COURRIEL, PAR_PRO_FAX,
+		PAR_PRO_ADR_CP, PAR_PRO_ADR_RUE,
+		PAR_ASSIST_NOM, PAR_ASSIST_PRENOM, PAR_ASSIST_TEL, PAR_ASSIST_COURRIEL,
+		PAR_COMMENTAIRE, PAR_ORGANISME, PAR_DATE_CREATION, PAR_DATE_MODIFICATION,
+		SATISFACTION, PRODUIT.ID_PRODUIT, PRODUIT.PRO_NOM, PRODUIT.PRO_DESCR, PRODUIT.ID_SECTEUR
+		FROM PARTENAIRE
+		INNER JOIN CIVILITE ON CIVILITE.ID_CIVILITE = PARTENAIRE.ID_CIVILITE
+		INNER JOIN PAYS AS nationalite ON nationalite.ID_PAYS = PARTENAIRE.ID_PAYS
+		INNER JOIN VILLE ON VILLE.ID_VILLE = PARTENAIRE.ID_VILLE
+		INNER JOIN PAYS ON VILLE.ID_PAYS = PAYS.ID_PAYS
+		LEFT OUTER JOIN PRODUIT_PARTENAIRE ON PRODUIT_PARTENAIRE.ID_PARTENAIRE = PARTENAIRE.ID_PARTENAIRE
+		LEFT OUTER JOIN PRODUIT ON PRODUIT.ID_PRODUIT = PRODUIT_PARTENAIRE.ID_PRODUIT
+		LEFT OUTER JOIN PHOTO ON PHOTO.ID_PHOTO = PARTENAIRE.ID_PHOTO
+	</sql>
+
 	<select id="select" resultMap="mapPartenaire">
 		<include refid="selectPartenaire_fragment" />
 		ORDER BY PAR_NOM ASC;
 	</select>
 
-	<select id="selectById" resultMap="mapPartenaire">
-		<include refid="selectPartenaire_fragment" />
+	<select id="selectById" resultMap="mapPartenaireAvecProduits">
+		<include refid="selectPartenaireAvecProduits_fragment" />
 		WHERE ID_PARTENAIRE = #{id};
 	</select>
 
@@ -87,10 +146,8 @@
 		PAR_PRO_COURRIEL, PAR_ORGANISME, PAR_FONCTION, PAR_DATE_CREATION, PAR_DATE_MODIFICATION
 		FROM PARTENAIRE
 		<if test="idSecteur != null">
-			<if test="idSecteur != 0">
-				INNER JOIN PRODUIT_PARTENAIRE ON PRODUIT_PARTENAIRE.ID_PARTENAIRE = PARTENAIRE.ID_PARTENAIRE
-				INNER JOIN PRODUIT ON PRODUIT.ID_PRODUIT = PRODUIT_PARTENAIRE.ID_PRODUIT AND PRODUIT.ID_SECTEUR = #{idSecteur}
-			</if>
+			INNER JOIN PRODUIT_PARTENAIRE ON PRODUIT_PARTENAIRE.ID_PARTENAIRE = PARTENAIRE.ID_PARTENAIRE
+			INNER JOIN PRODUIT ON PRODUIT.ID_PRODUIT = PRODUIT_PARTENAIRE.ID_PRODUIT AND PRODUIT.ID_SECTEUR = #{idSecteur}
 		</if>
 		<where>
 			<if test="partenaire.isClient != null" >
@@ -108,7 +165,7 @@
 			<if test="partenaire.organisme != null and partenaire.organisme != ''" >
 				AND UPPER(PAR_ORGANISME) like UPPER( '%' + #{partenaire.organisme} + '%' )
 			</if>
-			<if test="partenaire.dateModif != null and partenaire.dateModif != ''" >
+			<if test="partenaire.dateModif != null" >
 				AND DATEDIFF('dd', PAR_DATE_MODIFICATION, #{partenaire.dateModif}) = 0
 			</if>
 			<if test="partenaire.isVIP" >
@@ -117,10 +174,10 @@
 			<if test="partenaire.isVIPFiltre" >
 				AND PAR_IS_VIP = 1
 			</if>
-			<if test="startDate != null and startDate != ''" >
+			<if test="startDate != null" >
 				AND DATEDIFF('dd', PAR_DATE_MODIFICATION, #{startDate}) &lt;= 0
 			</if>
-			<if test="endDate != null and endDate != ''" >
+			<if test="endDate != null" >
 				AND DATEDIFF('dd', PAR_DATE_MODIFICATION, #{endDate}) &gt;= 0
 			</if>
 		</where>
@@ -135,7 +192,7 @@
 		INSERT INTO PARTENAIRE
 		(
 		ID_VILLE, ID_CIVILITE, ID_PAYS, PAR_IS_CLIENT, PAR_IS_VIP,
-		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_FONCTION,
+		PAR_NOM, PAR_PRENOM, PAR_NOM_LOCAL, PAR_PRENOM_LOCAL, PAR_DATE_NAISSANCE, PAR_FONCTION,
 		PAR_PRO_TEL_FIXE, PAR_PRO_TEL_PORT, PAR_PRO_COURRIEL, PAR_PRO_FAX,
 		PAR_PRO_ADR_CP, PAR_PRO_ADR_RUE,
 		PAR_ASSIST_NOM, PAR_ASSIST_PRENOM, PAR_ASSIST_TEL, PAR_ASSIST_COURRIEL,
@@ -147,7 +204,7 @@
 		VALUES
 		(
 		#{ville.id}, #{civilite.id}, #{nationalite.id}, #{isClient}, #{isVIP},
-		#{nom}, #{prenom}, #{nomLocal}, #{prenomLocal}, #{fonction},
+		#{nom}, #{prenom}, #{nomLocal}, #{prenomLocal}, #{dateNaissance}, #{fonction},
 		#{proTelFixe}, #{proTelPort}, #{proCourriel}, #{proFax},
 		#{proAdrCP}, #{proAdrRue},
 		#{assistNom}, #{assistPrenom}, #{assistTel}, #{assistCourriel},
@@ -162,7 +219,7 @@
 		UPDATE PARTENAIRE SET
 		ID_VILLE = #{ville.id}, ID_CIVILITE = #{civilite.id}, ID_PAYS = #{nationalite.id},
 		PAR_IS_CLIENT = #{isClient}, PAR_IS_VIP = #{isVIP},
-		PAR_NOM = #{nom}, PAR_PRENOM = #{prenom}, PAR_NOM_LOCAL = #{nomLocal}, PAR_PRENOM_LOCAL = #{prenomLocal}, PAR_FONCTION =
+		PAR_NOM = #{nom}, PAR_PRENOM = #{prenom}, PAR_NOM_LOCAL = #{nomLocal}, PAR_PRENOM_LOCAL = #{prenomLocal}, PAR_DATE_NAISSANCE = #{dateNaissance}, PAR_FONCTION =
 		#{fonction},
 		PAR_PRO_TEL_FIXE = #{proTelFixe}, PAR_PRO_TEL_PORT = #{proTelPort}, PAR_PRO_COURRIEL = #{proCourriel}, PAR_PRO_FAX = #{proFax},
 		PAR_PRO_ADR_CP = #{proAdrCP}, PAR_PRO_ADR_RUE = #{proAdrRue},

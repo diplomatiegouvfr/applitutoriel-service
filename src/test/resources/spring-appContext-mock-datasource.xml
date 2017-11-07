@@ -27,8 +27,8 @@ Configuration Spring pour la datasource.
 
     <!-- Initialisation de la base de données -->
     <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-        <jdbc:script location="classpath:createTables.sql" />
-        <jdbc:script location="classpath:initData.sql" />
+   		<jdbc:script location="classpath:sql/01-createTablesHsqldb.sql" />
+		<jdbc:script location="classpath:sql/02-initDataHsqldb.sql" />
         <jdbc:script location="classpath:cleanTestData.sql" />
         <jdbc:script location="classpath:initTestData.sql" />
     </jdbc:initialize-database>

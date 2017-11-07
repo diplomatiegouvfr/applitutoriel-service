@@ -42,18 +42,17 @@
 	<parent>
 		<groupId>fr.gouv.diplomatie.hornet</groupId>
 		<artifactId>hornet-service-parent</artifactId>
-		<version>5.0.1</version>
+		<version>5.1.0</version>
 	</parent>
 
 	<groupId>fr.gouv.diplomatie.applitutoriel</groupId>
 	<artifactId>applitutoriel-service</artifactId>
-	<version>5.0.1</version>
+	<version>5.1.0</version>
 	<packaging>war</packaging>
 
-	<inceptionYear>2015</inceptionYear>
+	<inceptionYear>2016</inceptionYear>
 	<organization>
-		<name>MAE - Ministère des Affaires étrangères</name>
-		<url></url>
+		<name>MEAE - Ministère de l'Europe et des Affaires étrangères</name>
 	</organization>
 
 	<!-- Properties -->
@@ -62,7 +61,18 @@
 	</properties>
 
 	<dependencies>
-	
+
+		<dependency>
+			<groupId>org.bitbucket.b_c</groupId>
+			<artifactId>jose4j</artifactId>
+			<version>0.5.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+
 		<!-- Dépendances spécifiques des modules framwork -->
 		<dependency>
 			<groupId>fr.gouv.diplomatie.hornet</groupId>
@@ -79,261 +89,374 @@
 		<dependency>
 			<groupId>fr.gouv.diplomatie.hornet</groupId>
 			<artifactId>hornet-service-webservicehelper</artifactId>
-		</dependency>	
-	
-		<!-- Plan de configurtions internes -->
+		</dependency>
+
+		<!-- Plan de configurations internes -->
 		<dependency>
 			<groupId>fr.gouv.diplomatie.hornet</groupId>
 			<artifactId>hornet-pom-orm</artifactId>
-				<type>pom</type>
+			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>fr.gouv.diplomatie.hornet</groupId>
 			<artifactId>hornet-pom-reports</artifactId>
-				<type>pom</type>
+			<type>pom</type>
 		</dependency>
-		
-		
+
 		<!-- Spécifique à l'appli (issu du BOM) -->
+		<dependency>
+			<groupId>net.ju-n.commons-dbcp-jmx</groupId>
+			<artifactId>commons-dbcp-jmx-jdbc4</artifactId>
+			<classifier>jar-with-dependencies</classifier>
+		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-			<artifactId>ehcache-spring-annotations</artifactId>
-		</dependency>
-      	<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Spécifique à l'appli (non déclaré dans le BOM) -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.2.9</version>
 		</dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4</version>
+        </dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-		
+
 
 	</dependencies>
 
 	<build>
-		<plugins>
-			<!-- hornet-service-typescript-maven-plugin -->
-			<plugin>
-				<groupId>fr.gouv.diplomatie.hornet</groupId>
-				<artifactId>hornet-service-typescript-maven-plugin</artifactId>
-			</plugin>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+				</plugin>
 
-			<!-- jasperreports-plugin -->
-			<plugin>
-	            <groupId>com.alexnederlof</groupId>
-	            <artifactId>jasperreports-plugin</artifactId>
-	            <configuration>
-	            	<!-- Sortie détaillée dans la console lors de l'exécution -->
-	                <!-- <verbose>true</verbose> -->
-	                <!-- Nombre de threads à augmenter pour accélerer la compilation 
-	                lorsqu'il y a beaucoup de jrxml -->
-	                <!-- <numberOfThreads>4</numberOfThreads> -->
-	            </configuration>
-	        </plugin>
+				<!-- jasperreports-plugin -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jasperreports-maven-plugin</artifactId>
+					<configuration>
+						<!-- Sortie détaillée dans la console lors de l'exécution -->
+						<!-- <verbose>true</verbose> -->
+						<!-- Nombre de threads à augmenter pour accélerer la compilation lorsqu'il 
+							y a beaucoup de jrxml -->
+						<!-- <numberOfThreads>4</numberOfThreads> -->
+					</configuration>
+				</plugin>
 
-			<!-- maven-resources-plugin -->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<!-- Ajoute les jasperreports au classpath -->
-					<execution>
-						<id>copy-resources</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.outputDirectory}/jasper</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/target/jasper</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<!-- Utile uniquement pour le développement dans Eclipse (Aucun impact 
-						sur le war généré) -->
-					<!-- Sert à filtrer et copier le context.xml 'template' dans le dossier 
-						target/m2e-wtp -->
-					<execution>
-						<id>prepare-context-dev</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/m2e-wtp/web-resources/META-INF</outputDirectory>
-							<resources>
-								<resource>
-									<directory>_parametrage/template/</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<!-- Utile uniquement pour le développement dans Eclipse (Aucun impact 
-						sur le war généré) -->
-					<!-- Sert à filtrer et copier la configuration 'dev' dans le répertoire 
-						target/parametrage-env-dev -->
-					<execution>
-						<id>prepare-parametrage-dev</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/parametrage-env-dev</outputDirectory>
-							<resources>
-								<!-- Filtre uniquement webservices.properties -->
-								<resource>
-									<directory>_parametrage/environnements/dev</directory>
-									<filtering>true</filtering>
+				<!-- maven-resources-plugin -->
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<executions>
+						<!-- Ajoute les jasperreports au classpath -->
+						<execution>
+							<id>copy-resources</id>
+							<phase>process-classes</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.outputDirectory}/jasper</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${basedir}/target/jasper</directory>
+										<filtering>false</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+						<!-- Utile uniquement pour le développement dans Eclipse (Aucun impact 
+							sur le war généré) -->
+						<!-- Sert à filtrer et copier le context.xml 'template' dans le dossier 
+							target/m2e-wtp -->
+						<execution>
+							<id>prepare-context-dev</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/target/m2e-wtp/web-resources/META-INF</outputDirectory>
+								<resources>
+									<resource>
+										<directory>environment/tc-server</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+						<!-- Utile uniquement pour le développement dans Eclipse (Aucun impact 
+							sur le war généré) -->
+						<!-- Sert à filtrer et copier la configuration 'dev' dans le répertoire 
+							target/parametrage-env-dev -->
+						<execution>
+							<id>prepare-parametrage-dev</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/target/parametrage-env-dev</outputDirectory>
+								<resources>
+									<!-- Filtre uniquement webservices.properties -->
+									<resource>
+										<directory>environment/develop</directory>
+										<filtering>true</filtering>
+										<includes>
+											<include>webservices.properties</include>
+											<include>token.properties</include>
+										</includes>
+									</resource>
+									<!-- Tout le reste n'est pas filtré -->
+									<resource>
+										<directory>environment/develop</directory>
+										<filtering>false</filtering>
+										<excludes>
+											<exclude>webservices.properties</exclude>
+										</excludes>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!--Zip -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>truezip-maven-plugin</artifactId>
+					<executions>
+						<!-- # Zip des config -->
+						<execution>
+							<id>zip-config</id>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+							<phase>package</phase>
+							<configuration>
+								<fileset>
+									<directory>environment/develop</directory>
+									<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}-config.zip</outputDirectory>
 									<includes>
-										<include>webservices.properties</include>
+										<include>**/*</include>
 									</includes>
-								</resource>
-								<!-- Tout le reste n'est pas filtré -->
-								<resource>
-									<directory>_parametrage/environnements/dev</directory>
-									<filtering>false</filtering>
-									<excludes>
-										<exclude>webservices.properties</exclude>
-									</excludes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!--Zip -->
+								</fileset>
+							</configuration>
+						</execution>
+						<!-- # Zip des context -->
+						<execution>
+							<id>zip-context</id>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+							<phase>package</phase>
+							<configuration>
+								<fileset>
+									<directory>environment/tc-server</directory>
+									<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}-context.zip</outputDirectory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</fileset>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-config</id>
+							<phase>package</phase>
+							<goals>
+								<goal>attach-artifact</goal>
+							</goals>
+							<configuration>
+								<artifacts>
+									<artifact>
+										<file>${project.build.directory}/${project.artifactId}-${project.version}-config.zip</file>
+										<type>zip</type>
+										<classifier>config</classifier>
+									</artifact>
+								</artifacts>
+							</configuration>
+						</execution>
+						<execution>
+							<id>attach-context</id>
+							<phase>package</phase>
+							<goals>
+								<goal>attach-artifact</goal>
+							</goals>
+							<configuration>
+								<artifacts>
+									<artifact>
+										<file>${project.build.directory}/${project.artifactId}-${project.version}-context.zip</file>
+										<type>zip</type>
+										<classifier>context</classifier>
+									</artifact>
+								</artifacts>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>truezip-maven-plugin</artifactId>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
-					<!-- # Zip des config -->
 					<execution>
-						<id>zip-config</id>
-						<goals>
-							<goal>copy</goal>
+						<id>attach-sources</id>
+       					<goals>
+							<goal>jar</goal>
 						</goals>
-						<phase>package</phase>
-						<configuration>
-							<fileset>
-								<directory>_parametrage/environnements/template</directory>
-								<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}-config.zip</outputDirectory>
-								<includes>
-									<include>**/*</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-					<!-- # Zip des context -->
-					<execution>
-						<id>zip-context</id>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<fileset>
-								<directory>_parametrage/template</directory>
-								<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}-context.zip</outputDirectory>
-								<includes>
-									<include>**/*</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-					<!-- # Zip des typescript -->
-					<execution>
-						<id>zip-typescript</id>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<fileset>
-								<directory>${project.build.directory}/typescript</directory>
-								<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}-typescript.zip</outputDirectory>
-								<includes>
-									<include>**/*</include>
-								</includes>
-							</fileset>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-		        <groupId>org.codehaus.mojo</groupId>
-		        <artifactId>build-helper-maven-plugin</artifactId>
-		        <executions>
-		          <execution>
-		            <id>attach-config</id>
-		            <phase>package</phase>
-		            <goals>
-		              <goal>attach-artifact</goal>
-		            </goals>
-		            <configuration>
-		              <artifacts>
-		                <artifact>
-		                  <file>${project.build.directory}/${project.artifactId}-${project.version}-config.zip</file>
-		                  <type>zip</type>
-		                  <classifier>config</classifier>
-		                </artifact>
-		              </artifacts>
-		            </configuration>
-		          </execution>
-		          <execution>
-		            <id>attach-context</id>
-		            <phase>package</phase>
-		            <goals>
-		              <goal>attach-artifact</goal>
-		            </goals>
-		            <configuration>
-		              <artifacts>
-		                <artifact>
-		                  <file>${project.build.directory}/${project.artifactId}-${project.version}-context.zip</file>
-		                  <type>zip</type>
-		                  <classifier>context</classifier>
-		                </artifact>
-		              </artifacts>
-		            </configuration>
-		          </execution>
-		          <execution>
-		            <id>attach-typescript</id>
-		            <phase>package</phase>
-		            <goals>
-		              <goal>attach-artifact</goal>
-		            </goals>
-		            <configuration>
-		              <artifacts>
-		                <artifact>
-		                  <file>${project.build.directory}/${project.artifactId}-${project.version}-typescript.zip</file>
-		                  <type>zip</type>
-		                  <classifier>typescript</classifier>
-		                </artifact>
-		              </artifacts>
-		            </configuration>
-		          </execution>
-		        </executions>
-		      </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>package-config-templates</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<file>
+					<exists>environment/templates/logback-hornet.xml</exists>
+				</file>
+			</activation>
+
+			<properties>
+				<rootproject.basedir>${session.executionRootDirectory}</rootproject.basedir>
+				<configTemplateClassifier>environment</configTemplateClassifier>
+				<configTemplateZip>${project.build.directory}/${project.artifactId}-${project.version}-${configTemplateClassifier}.zip</configTemplateZip>
+				<configEnvTarget>DEV</configEnvTarget>
+			</properties>
+
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<artifactId>maven-resources-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>prepare-zip-environment-configuration</id>
+									<phase>process-resources</phase>
+									<goals>
+										<goal>copy-resources</goal>
+									</goals>
+									<configuration>
+										<outputDirectory>${project.build.directory}/${configTemplateClassifier}/configuration</outputDirectory>
+										<resources>
+											<resource>
+												<directory>environment/configuration</directory>
+												<filtering>false</filtering>
+											</resource>
+										</resources>
+									</configuration>
+								</execution>
+								<execution>
+									<id>prepare-zip-environment-templates</id>
+									<phase>process-resources</phase>
+									<goals>
+										<goal>copy-resources</goal>
+									</goals>
+									<configuration>
+										<outputDirectory>${project.build.directory}/${configTemplateClassifier}/templates</outputDirectory>
+										<resources>
+											<resource>
+												<directory>environment/templates</directory>
+												<filtering>false</filtering>
+											</resource>
+										</resources>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>truezip-maven-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>package-zip-environment</id>
+									<phase>package</phase>
+									<goals>
+										<goal>copy</goal>
+									</goals>
+									<configuration>
+										<filesets>
+											<fileset>
+												<directory>${project.build.directory}/${configTemplateClassifier}</directory>
+												<outputDirectory>${configTemplateZip}</outputDirectory>
+											</fileset>
+										</filesets>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>build-helper-maven-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>attach-zip-environment</id>
+									<phase>package</phase>
+									<goals>
+										<goal>attach-artifact</goal>
+									</goals>
+									<configuration>
+										<artifacts>
+											<artifact>
+												<file>${configTemplateZip}</file>
+												<type>zip</type>
+												<classifier>${configTemplateClassifier}</classifier>
+											</artifact>
+										</artifacts>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>truezip-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

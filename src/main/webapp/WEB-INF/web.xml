@@ -42,14 +42,14 @@
 	metadata-complete="true">
 
 	<display-name>applitutoriel</display-name>
-
+	
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>5.0.1</param-value>
+		<param-value>5.1.0</param-value>
 	</context-param>
 	
 	<absolute-ordering />
-	
+
 	<session-config>
 	    <session-timeout>1</session-timeout>
 	    <cookie-config>
@@ -75,6 +75,10 @@
 	<servlet>
 		<servlet-name>services-rest</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+        	<param-name>throwExceptionIfNoHandlerFound</param-name>
+        	<param-value>true</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

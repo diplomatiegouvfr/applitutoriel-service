@@ -12,8 +12,13 @@
 	<import resource="classpath:/spring-appContext-aopMetrologie.xml" />
 	<import resource="classpath:/spring-appContext-mail.xml" />
 	<import resource="classpath:/spring-appContext-ws.xml" />
+	
+	<context:property-placeholder location="classpath:token.properties" order="1" ignore-unresolvable="true"/>
+	
+	<bean id="keyProvider" class="fr.gouv.diplomatie.applitutoriel.web.security.KeyProvider">
+		<constructor-arg value="${token.path}"></constructor-arg>
+	</bean>
 
-	<context:component-scan base-package="fr.gouv.diplomatie.applitutoriel.export" />
-
+	<context:component-scan base-package="fr.gouv.diplomatie.applitutoriel.export, fr.gouv.diplomatie.applitutoriel.web.security" />
 
 </beans>
