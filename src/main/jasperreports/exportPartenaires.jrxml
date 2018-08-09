@@ -60,8 +60,8 @@
 		<field name="dateCrea" class="java.util.Date">
 			<fieldDescription><![CDATA[dateCrea]]></fieldDescription>
 		</field>
-		<field name="dateModif" class="java.util.Date">
-			<fieldDescription><![CDATA[dateModif]]></fieldDescription>
+        <field name="dateModif" class="java.util.Date">
+            <fieldDescription><![CDATA[dateModif]]></fieldDescription>
 		</field>
 		<field name="fonction" class="java.lang.String">
 			<fieldDescription><![CDATA[fonction]]></fieldDescription>
@@ -69,14 +69,11 @@
 		<field name="id" class="java.lang.Long">
 			<fieldDescription><![CDATA[id]]></fieldDescription>
 		</field>
-		<field name="isClient" class="java.lang.Boolean">
-			<fieldDescription><![CDATA[isClient]]></fieldDescription>
+        <field name="client" class="java.lang.Boolean">
+            <fieldDescription><![CDATA[client]]></fieldDescription>
 		</field>
-		<field name="isVIP" class="java.lang.Boolean">
-			<fieldDescription><![CDATA[isVIP]]></fieldDescription>
-		</field>
-		<field name="isVIPFiltre" class="java.lang.Boolean">
-			<fieldDescription><![CDATA[isVIPFiltre]]></fieldDescription>
+        <field name="vip" class="java.lang.Boolean">
+            <fieldDescription><![CDATA[vip]]></fieldDescription>
 		</field>
 		<field name="labelIsVIP" class="java.lang.String">
 			<fieldDescription><![CDATA[labelIsVIP]]></fieldDescription>
@@ -276,7 +273,8 @@
 							<textField pattern="dd/MM/yyyy">
 								<reportElement style="TexteDefaut" x="0" y="0" width="90" height="20"/>
 								<textElement/>
-								<textFieldExpression class="java.util.Date"><![CDATA[$F{dateModif}]]></textFieldExpression>
+                                <textFieldExpression class="java.util.Date">
+                                    <![CDATA[$F{dateModif}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

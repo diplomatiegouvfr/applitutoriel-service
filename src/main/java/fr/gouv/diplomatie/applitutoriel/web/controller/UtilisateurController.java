@@ -57,8 +57,6 @@
  */
 package fr.gouv.diplomatie.applitutoriel.web.controller;
 
-import hornet.framework.exception.AuthenticationFailedException;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -70,18 +68,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Role;
-import fr.gouv.diplomatie.applitutoriel.business.bo.Utilisateur;
-import fr.gouv.diplomatie.applitutoriel.business.service.RoleService;
-import fr.gouv.diplomatie.applitutoriel.business.service.UtilisateurService;
+import fr.gouv.diplomatie.applitutoriel.business.service.utilisateur.UtilisateurService;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.utilisateur.UtilisateurProjection;
 import fr.gouv.diplomatie.applitutoriel.web.dto.utilisateur.AuthDTOIn;
-import fr.gouv.diplomatie.applitutoriel.web.dto.utilisateur.UtilisateurRolesDTO;
 import fr.gouv.diplomatie.applitutoriel.web.security.JwtService;
 import fr.gouv.diplomatie.applitutoriel.web.security.profile.User;
 
+import hornet.framework.exception.AuthenticationFailedException;
+
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 3 févr. 2015
  */
 @RestController
 @RequestMapping(value = "/utilisateurs", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -91,41 +87,54 @@ public class UtilisateurController {
 
     @Resource
     private UtilisateurService utilisateurService;
-    
+
     @Resource
     private JwtService jwtService;
 
-    @Resource
-    private RoleService roleService;
-
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public UtilisateurRolesDTO authentifier(@RequestBody final AuthDTOIn dtoIn, final HttpServletResponse  response) {
+    public UtilisateurProjection.Detail authentifier(@RequestBody final AuthDTOIn dtoIn,
+                final HttpServletResponse response) {
 
         LOG.debug("Demande d'authentification");
 
-        final UtilisateurRolesDTO utilisateurRolesDTO = new UtilisateurRolesDTO();
-
-        final Utilisateur utilisateur = utilisateurService.lireUtilisateur(dtoIn.getLogin(),
-            dtoIn.getPassword());
+        final UtilisateurProjection.Detail utilisateur =
+                    utilisateurService.lireUtilisateur(dtoIn.getLogin(),
+                        dtoIn.getPassword());
 
 
         if (utilisateur == null) {
             throw new AuthenticationFailedException();
         }
-        
-        utilisateurRolesDTO.setName(utilisateur.getLogin());
 
-        utilisateurRolesDTO.setRoles(roleService.lireRoleParIdUtilisateur(utilisateur.getUtiId()));
+        LOG.debug("Out authentification : {}", utilisateur.toString());
 
-        LOG.debug("Out authentification : {}", utilisateurRolesDTO.toString());
-        
-        User u = new User(utilisateur.getLogin());
-        for (Role r : utilisateurRolesDTO.getRoles()) {
-        	u.addRoles(r.getName());
-		}
-        
+        final User u = new User(utilisateur.getName());
+        for (final UtilisateurProjection.Detail.RoleSummary r : utilisateur.getRoles()) {
+            u.addRoles(r.getName());
+        }
+
         response.setHeader("Authorization", "Bearer " + jwtService.signedAsymetricTokenFor(JwtService.USER_CLAIM, u));
 
-        return utilisateurRolesDTO;
+        return utilisateur;
+    }
+
+    /**
+     * Exemple de generation d'un token JWT avec un user
+     * 
+     * @param user
+     *            {username, roles[]}
+     * @param response
+     *            HttpServletResponse
+     */
+    @RequestMapping(value = "/generateToken", method = RequestMethod.POST)
+    public void authentifier(@RequestBody final User user,
+                final HttpServletResponse response) {
+
+        LOG.debug("Demande du token d'authentification");
+
+        response.setHeader("Authorization",
+            "Bearer " + jwtService.signedAsymetricTokenFor(JwtService.USER_CLAIM, user));
+
+
     }
 }

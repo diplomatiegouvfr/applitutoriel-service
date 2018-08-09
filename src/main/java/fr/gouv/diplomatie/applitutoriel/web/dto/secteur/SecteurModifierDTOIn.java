@@ -59,7 +59,6 @@ package fr.gouv.diplomatie.applitutoriel.web.dto.secteur;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 4 févr. 2015
  */
 public class SecteurModifierDTOIn {
 
@@ -102,7 +101,7 @@ public class SecteurModifierDTOIn {
      */
     public void setDesc(final String description) {
 
-        this.desc = description;
+        desc = description;
     }
 
     /**
@@ -117,7 +116,7 @@ public class SecteurModifierDTOIn {
 	 * user
 	 * @param user login
 	 */
-	public void setUser(String user) {
+	public void setUser(final String user) {
 		this.user = user;
 	}
 
@@ -125,9 +124,19 @@ public class SecteurModifierDTOIn {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
+	
+    @Override
+    public String toString() {
+
+        final StringBuilder builder = new StringBuilder();
+        builder.append("SecteurModifierDTOIn [nom=").append(nom).append(", desc=")
+                    .append(desc).append(", user=").append(user).append(", id=")
+                    .append(id).append("]");
+        return builder.toString();
+    }
     
 
 }

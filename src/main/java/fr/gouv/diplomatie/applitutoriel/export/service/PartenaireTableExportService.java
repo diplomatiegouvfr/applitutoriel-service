@@ -57,12 +57,6 @@
  */
 package fr.gouv.diplomatie.applitutoriel.export.service;
 
-import hornet.framework.export.vo.presentation.ColVO;
-import hornet.framework.export.vo.presentation.RowVO;
-import hornet.framework.export.vo.presentation.TableVO;
-import hornet.framework.export.vo.utils.TableVOUtils;
-import hornet.framework.web.service.export.AbstractTableExportService;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -72,14 +66,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.TablePartenaire;
 
+import hornet.framework.export.vo.presentation.ColVO;
+import hornet.framework.export.vo.presentation.RowVO;
+import hornet.framework.export.vo.presentation.TableVO;
+import hornet.framework.export.vo.utils.TableVOUtils;
+import hornet.framework.web.service.export.AbstractTableExportService;
+
 /**
- * @author Hornet
- * @since 1.0 - 3 mars 2015
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  *
- *        Service d'export de {@link TablePartenaire} pour les formats XLS et CSV
+ *         Service d'export de {@link TablePartenaire} pour les formats XLS et CSV
  */
 @Service
 public class PartenaireTableExportService extends AbstractTableExportService<TablePartenaire> {
@@ -96,7 +96,7 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
     }
 
     /**
-     * Construit un vo table pour l'export a partir d'une liste de partenaires
+     * Construit un vo table pour l'expPartenaireSummaryort a partir d'une liste de partenaires
      *
      * Utilisé par l'export XLS et CSV
      *
@@ -107,7 +107,9 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
     @Override
     protected TableVO construireTableauExport(final TablePartenaire tablePartenaires) {
 
-        final List<Partenaire> listePartenaires = tablePartenaires.getListe();
+        LOG.debug("generation des données de l'export XLS/CSV");
+
+        final List<PartenaireProjection.Summary> listePartenaires = tablePartenaires.getListe();
 
         final TableVO table = new TableVO();
         table.setNbColumns(6);
@@ -127,12 +129,12 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
         table.setColumnsTitles(titles);
 
         if (listePartenaires != null) {
-            final Iterator<Partenaire> it = listePartenaires.iterator();
+            final Iterator<PartenaireProjection.Summary> it = listePartenaires.iterator();
 
             RowVO row;
             List<ColVO> cols;
             while (it.hasNext()) {
-                final Partenaire partenaire = it.next();
+                final Partenaire partenaire = (Partenaire)it.next();
 
                 row = new RowVO();
                 cols = new ArrayList<ColVO>();
@@ -147,7 +149,7 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
                 colOrg.setValue(partenaire.getOrganisme());
                 final ColVO colVIP = new ColVO();
                 colVIP.setFormat(TableVOUtils.FORMAT_BOOLEEN);
-                colVIP.setValue(partenaire.getIsVIP());
+                colVIP.setValue(partenaire.isVip());
                 final ColVO colDateModif = new ColVO();
                 colDateModif.setFormat(TableVOUtils.FORMAT_DATE);
                 colDateModif.setValue(partenaire.getDateModif());

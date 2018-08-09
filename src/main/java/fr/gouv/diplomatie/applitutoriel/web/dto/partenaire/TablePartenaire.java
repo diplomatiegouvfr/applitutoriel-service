@@ -59,18 +59,19 @@ package fr.gouv.diplomatie.applitutoriel.web.dto.partenaire;
 
 import org.springframework.http.converter.HttpMessageConverter;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
 import fr.gouv.diplomatie.applitutoriel.web.action.forms.FormRecherchePartenaire;
+
 import hornet.framework.web.table.Table;
 
 /**
  * @author Hornet
- * @since 1.0 - 3 mars 2015
  *
  *        Typage fort d'une Table de {@link Partenaire Partenaire}. <br>
  *        Nécessaire pour la gestion des {@link HttpMessageConverter HttpMessageConverters} par Spring
  */
-public class TablePartenaire extends Table<Partenaire> {
+public class TablePartenaire extends Table<PartenaireProjection.Summary> {
 
     /** Critères de recherche. */
     private FormRecherchePartenaire listeCriteres;

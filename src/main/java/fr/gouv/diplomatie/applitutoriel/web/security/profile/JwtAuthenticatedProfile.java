@@ -63,6 +63,9 @@ import java.util.Collections;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 public class JwtAuthenticatedProfile implements Authentication {
 
     /**

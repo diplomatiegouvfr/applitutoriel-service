@@ -58,12 +58,12 @@
 package fr.gouv.diplomatie.applitutoriel.web.dto.partenaire;
 
 import fr.gouv.diplomatie.applitutoriel.web.action.forms.FormRecherchePartenaire;
+
 import hornet.framework.web.table.Pagination;
 import hornet.framework.web.table.Sort;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 4 févr. 2015
  */
 public class PartenaireRechercherDTOIn {
 

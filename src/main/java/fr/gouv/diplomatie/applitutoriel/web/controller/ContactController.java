@@ -57,8 +57,7 @@
  */
 package fr.gouv.diplomatie.applitutoriel.web.controller;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,18 +66,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.gouv.diplomatie.applitutoriel.business.service.MailContactService;
+import fr.gouv.diplomatie.applitutoriel.mail.service.MailContactService;
 import fr.gouv.diplomatie.applitutoriel.web.dto.contact.ContactEnvoyerDTOIn;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 3 févr. 2015
  */
 @RestController
 @RequestMapping(value = "/contact", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class ContactController {
 
-    @Resource
+    @Autowired
     private MailContactService mailContactService;
 
     @RequestMapping(value = "/email", method = RequestMethod.POST)

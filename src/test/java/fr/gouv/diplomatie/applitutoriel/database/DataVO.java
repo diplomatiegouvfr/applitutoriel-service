@@ -93,12 +93,12 @@ public class DataVO implements Serializable {
     /**
      * <code>isClient</code> the isClient
      */
-    private String isClient;
+    private String client;
 
     /**
      * <code>isVip</code> the isVip
      */
-    private String isVip;
+    private String vip;
 
     /**
      * <code>nom</code> the nom
@@ -186,8 +186,8 @@ public class DataVO implements Serializable {
         this.idPays = idPays;
         this.idVille = idVille;
         this.idCiv = idCiv;
-        this.isClient = isClient;
-        this.isVip = isVip;
+        this.client = isClient;
+        this.vip = isVip;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -266,9 +266,9 @@ public class DataVO implements Serializable {
      *
      * @return Returns the isClient.
      */
-    public final String getIsClient() {
+    public final String getClient() {
 
-        return this.isClient;
+        return this.client;
     }
 
     /**
@@ -277,9 +277,9 @@ public class DataVO implements Serializable {
      * @param isClient
      *            The isClient to set.
      */
-    public final void setIsClient(final String isClient) {
+    public final void setClient(final String isClient) {
 
-        this.isClient = isClient;
+        this.client = isClient;
     }
 
     /**
@@ -287,9 +287,9 @@ public class DataVO implements Serializable {
      *
      * @return Returns the isVip.
      */
-    public final String getIsVip() {
+    public final String getVip() {
 
-        return this.isVip;
+        return this.vip;
     }
 
     /**
@@ -298,9 +298,9 @@ public class DataVO implements Serializable {
      * @param isVip
      *            The isVip to set.
      */
-    public final void setIsVip(final String isVip) {
+    public final void setVip(final String isVip) {
 
-        this.isVip = isVip;
+        this.vip = isVip;
     }
 
     /**
@@ -488,9 +488,9 @@ public class DataVO implements Serializable {
         sb.append(separator);
         sb.append(this.idCiv);
         sb.append(separator);
-        sb.append(this.isClient);
+        sb.append(this.client);
         sb.append(separator);
-        sb.append(this.isVip);
+        sb.append(this.vip);
         sb.append(separatorOtherString);
         sb.append(this.nom);
         sb.append(separatorStringString);
@@ -574,8 +574,8 @@ public class DataVO implements Serializable {
         this.idVille = GenerateData.ID_VILLE; // ID_VILLE
         this.idCiv = GenerateData.ID_CIV; // ID_CIV
 
-        this.isVip = GenerateData.genereBoolean(); // IS_VIP
-        this.isClient = GenerateData.genereBoolean(); // IS_CLIENT
+        this.vip = GenerateData.genereBoolean(); // IS_VIP
+        this.client = GenerateData.genereBoolean(); // IS_CLIENT
 
         this.nom = GenerateData.genereNom(); // NOM
         this.prenom = GenerateData.generePrenom(); // PRENOM

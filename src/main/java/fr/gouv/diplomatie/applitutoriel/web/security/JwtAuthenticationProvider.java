@@ -67,8 +67,12 @@ import org.springframework.stereotype.Component;
 import fr.gouv.diplomatie.applitutoriel.web.security.exceptions.JwtAuthenticationException;
 import fr.gouv.diplomatie.applitutoriel.web.security.profile.JwtAuthenticatedProfile;
 import fr.gouv.diplomatie.applitutoriel.web.security.profile.User;
+
 import hornet.framework.web.security.jwt.JwtAuthToken;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider, AuthenticationManager {
 

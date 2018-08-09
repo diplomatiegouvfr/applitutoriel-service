@@ -60,6 +60,7 @@ package fr.gouv.diplomatie.applitutoriel.utility;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -170,5 +171,45 @@ public final class DateUtil {
     public static boolean isDateValide(final String pDate) {
 
         return isDateValide(pDate, FORMAT_DATE);
+    }
+
+    /**
+     * Return last time of previous day for between comparison.
+     *
+     * @param pDate
+     *            the date
+     * @return true, if is date valide
+     */
+    public static Date previousDayLastHour(final Date pDate) {
+
+        final Calendar c = Calendar.getInstance();
+        c.setTime(pDate);
+        c.set(Calendar.HOUR_OF_DAY, c.getMaximum(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, c.getMaximum(Calendar.MINUTE));
+        c.set(Calendar.SECOND, c.getMaximum(Calendar.SECOND));
+        c.set(Calendar.MILLISECOND, c.getMaximum(Calendar.MILLISECOND));
+        c.add(Calendar.DATE, -1);
+
+        return c.getTime();
+    }
+
+    /**
+     * Return first time of next day for between comparison.
+     *
+     * @param pDate
+     *            the date
+     * @return true, if is date valide
+     */
+    public static Date lastDayfirstHour(final Date pDate) {
+
+        final Calendar c = Calendar.getInstance();
+        c.setTime(pDate);
+        c.set(Calendar.HOUR_OF_DAY, c.getMinimum(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, c.getMinimum(Calendar.MINUTE));
+        c.set(Calendar.SECOND, c.getMinimum(Calendar.SECOND));
+        c.set(Calendar.MILLISECOND, c.getMinimum(Calendar.MILLISECOND));
+        c.add(Calendar.DATE, 1);
+
+        return c.getTime();
     }
 }

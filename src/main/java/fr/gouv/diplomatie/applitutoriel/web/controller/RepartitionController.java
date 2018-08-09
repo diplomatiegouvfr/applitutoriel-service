@@ -69,14 +69,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Repartition;
-import fr.gouv.diplomatie.applitutoriel.business.service.ProduitService;
-import fr.gouv.diplomatie.applitutoriel.business.service.SecteurService;
+import fr.gouv.diplomatie.applitutoriel.business.service.produit.ProduitService;
+import fr.gouv.diplomatie.applitutoriel.business.service.secteur.SecteurService;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.produit.ProduitProjection.Repartition;
 import fr.gouv.diplomatie.applitutoriel.web.dto.produit.ProduitRepartitionDTO;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 5 may. 2015
  */
 @RestController
 @RequestMapping(value = "/repartitions", produces = {
@@ -110,7 +109,7 @@ public class RepartitionController {
 
         for(final Repartition rep : repartitionList) {
             repartition = new ProduitRepartitionDTO();
-            repartition.setLabel(rep.getNomSecteur());
+            repartition.setLabel(rep.getNom());
             repartition.setValue(String.valueOf(Math.round((double)rep.getNbProduits() / (double)nbProduitsTotal * 100)));
             if(i > colors.length) color = colors[i%colors.length];
             else color = colors[i];

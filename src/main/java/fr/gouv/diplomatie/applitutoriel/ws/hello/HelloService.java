@@ -74,7 +74,8 @@ import org.slf4j.LoggerFactory;
  */
 @WebServiceClient(name = "HelloService",
 targetNamespace = "http://hello.ws.bouchonwebservice.hornet.diplomatie.gouv.fr/",
-wsdlLocation = "HelloService.wsdl")
+            wsdlLocation = "HelloService.wsdl")
+@org.springframework.stereotype.Service
 public class HelloService extends Service {
 
     private final static URL HELLOSERVICE_WSDL_LOCATION;

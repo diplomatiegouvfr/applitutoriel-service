@@ -72,7 +72,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * identique (appel et réponse) cette classe permet de retourner un tableau de bit au lien d'une chaine.
  *
  * @author Hornet
- * @since 1.0 - 8 avr. 2015
  */
 public class ByteArraySerializer extends JsonSerializer<byte[]> {
 

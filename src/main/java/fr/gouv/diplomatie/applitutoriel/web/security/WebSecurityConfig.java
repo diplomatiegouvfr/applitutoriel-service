@@ -72,8 +72,10 @@ import hornet.framework.web.security.RestAccessDeniedHandler;
 import hornet.framework.web.security.SecurityAuthenticationEntryPoint;
 import hornet.framework.web.security.jwt.filter.JwtAuthFilter;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(securedEnabled = true) for annotation on method (only old version spring)
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -82,21 +84,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.addFilterAfter(new JwtAuthFilter(), ExceptionTranslationFilter.class).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(new SecurityAuthenticationEntryPoint()).accessDeniedHandler(new RestAccessDeniedHandler())
-        .and().authorizeRequests()
+
+        http.addFilterAfter(new JwtAuthFilter(), ExceptionTranslationFilter.class).sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable()
+        .exceptionHandling().authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
+        .accessDeniedHandler(new RestAccessDeniedHandler()).and().authorizeRequests()
         .antMatchers(HttpMethod.POST, "/partenaires/**").hasRole("APPLI_TUTO_ADMIN")
         .antMatchers(HttpMethod.DELETE, "/partenaires/**").hasRole("APPLI_TUTO_ADMIN")
         .antMatchers(HttpMethod.PUT, "/partenaires/**").hasRole("APPLI_TUTO_ADMIN")
-        .antMatchers("/secteurs").access("hasRole('APPLI_TUTO_USER') and hasRole('APPLI_TUTO_ADMIN')")
+        // .access("hasRole('APPLI_TUTO_USER') and hasRole('APPLI_TUTO_ADMIN')")
         .anyRequest().permitAll();
     }
-
 
 }

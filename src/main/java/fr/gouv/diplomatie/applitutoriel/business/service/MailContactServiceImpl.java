@@ -69,12 +69,14 @@ import java.util.Map;
 import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * Implementation pour l'envoi d'un mail de contact.
  *
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
+@Service
 public class MailContactServiceImpl implements MailContactService {
 
     /** Recuperation du logger. */

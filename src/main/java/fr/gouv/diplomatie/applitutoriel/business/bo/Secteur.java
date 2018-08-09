@@ -138,9 +138,9 @@ public class Secteur implements Serializable {
 
         this.nom = nom;
         this.desc = description;
-        this.auteurCreat = auteur.getLogin();
+        this.auteurCreat = auteur.getName();
         this.dateCreat = new Date();
-        this.auteurMajEnreg = auteur.getLogin();
+        this.auteurMajEnreg = auteur.getName();
         this.dateMajEnreg = (Date) this.dateCreat.clone();
     }
 
@@ -157,7 +157,7 @@ public class Secteur implements Serializable {
 
         this.nom = leNom;
         this.desc = laDescription;
-        this.auteurMajEnreg = util.getLogin();
+        this.auteurMajEnreg = util.getName();
         this.dateMajEnreg = new Date();
     }
 
@@ -345,7 +345,7 @@ public class Secteur implements Serializable {
      */
     public void desactiver(final Utilisateur auteur) {
 
-        this.auteurSupprEnreg = auteur.getLogin();
+        this.auteurSupprEnreg = auteur.getName();
         this.dateSupprEnreg = new Date();
     }
 

@@ -59,7 +59,6 @@ package fr.gouv.diplomatie.applitutoriel.web.dto.produit;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 4 févr. 2015
  */
 public class ProduitRepartitionDTO {
 
@@ -81,19 +80,19 @@ public class ProduitRepartitionDTO {
 	public String getLabel() {
 		return label;
 	}
-	public void setLabel(String label) {
+	public void setLabel(final String label) {
 		this.label = label;
 	}
 	public String getValue() {
 		return value;
 	}
-	public void setValue(String value) {
+	public void setValue(final String value) {
 		this.value = value;
 	}
 	public String getColor() {
 		return color;
 	}
-	public void setColor(String color) {
+	public void setColor(final String color) {
 		this.color = color;
 	}
 

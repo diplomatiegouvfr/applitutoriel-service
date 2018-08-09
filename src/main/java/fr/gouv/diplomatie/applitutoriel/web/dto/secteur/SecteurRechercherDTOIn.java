@@ -59,7 +59,6 @@ package fr.gouv.diplomatie.applitutoriel.web.dto.secteur;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 4 févr. 2015
  */
 public class SecteurRechercherDTOIn {
 

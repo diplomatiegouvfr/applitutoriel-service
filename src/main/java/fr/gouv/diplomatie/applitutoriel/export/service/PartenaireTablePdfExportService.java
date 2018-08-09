@@ -57,20 +57,20 @@
  */
 package fr.gouv.diplomatie.applitutoriel.export.service;
 
-import hornet.framework.export.ExportPdfModelService;
-import hornet.framework.export.vo.pdf.PdfConverterIn;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.TablePartenaire;
 
+import hornet.framework.export.ExportPdfModelService;
+import hornet.framework.export.vo.pdf.PdfConverterIn;
+
 /**
- * @author Hornet
- * @since 1.0 - 4 mars 2015
  *
- *        Service d'export de {@link TablePartenaire} pour le format PDF
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ *
+ *         Service d'export de {@link TablePartenaire} pour le format PDF
  */
 @Service
 public class PartenaireTablePdfExportService implements ExportPdfModelService<TablePartenaire> {

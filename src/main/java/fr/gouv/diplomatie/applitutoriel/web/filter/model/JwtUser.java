@@ -66,7 +66,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * All user information handled by the JWT token
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ *
+ *         All user information handled by the JWT token
  */
 public class JwtUser implements UserDetails {
 

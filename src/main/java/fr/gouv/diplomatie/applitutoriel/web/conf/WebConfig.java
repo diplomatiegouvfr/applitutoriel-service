@@ -61,10 +61,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireConverter;
+import fr.gouv.diplomatie.applitutoriel.web.interceptors.UserRequestingInterceptor;
 
 import hornet.framework.web.conf.HornetWebConfig;
 import hornet.framework.web.converter.CsvHttpMessageConverter;
@@ -73,11 +79,13 @@ import hornet.framework.web.converter.PdfHttpMessageConverter;
 import hornet.framework.web.converter.XlsHttpMessageConverter;
 
 /**
- * @author Hornet
- * @since 1.0 - 2 mars 2015
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
 @Configuration
 @EnableWebMvc
+@ComponentScan(basePackages = {
+    "fr.gouv.diplomatie.applitutoriel",
+"hornet.framework.web"})
 public class WebConfig extends HornetWebConfig {
 
     @Resource
@@ -111,6 +119,19 @@ public class WebConfig extends HornetWebConfig {
         converters.add(csvConverter);
         converters.add(pdfConverter);
 
+    }
+
+    @Override
+    public void addFormatters(final FormatterRegistry registry) {
+
+        registry.addConverter(new PartenaireConverter());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void addInterceptors(final InterceptorRegistry registry) {
+        super.addInterceptors(registry);
+        registry.addInterceptor(new UserRequestingInterceptor());
     }
 
 }

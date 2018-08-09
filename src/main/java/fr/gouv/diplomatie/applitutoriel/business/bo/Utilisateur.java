@@ -58,22 +58,25 @@
 package fr.gouv.diplomatie.applitutoriel.business.bo;
 
 import java.io.Serializable;
+import java.util.Set;
+
+import fr.gouv.diplomatie.applitutoriel.integration.repository.utilisateur.UtilisateurProjection;
 
 /**
  * Entité metier Utilisateur.
  *
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
-public class Utilisateur implements Serializable {
+public class Utilisateur implements Serializable, UtilisateurProjection.Detail {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The uti id. */
-    private Long utiId;
+    /** The user id. */
+    private Long id;
 
     /** The login. */
-    private String login;
+    private String name;
 
     /**
      * Instantiates a new utilisateur.
@@ -84,69 +87,76 @@ public class Utilisateur implements Serializable {
     }
 
     /**
-     * @param l
-     * @param string
+     * @param utiId
+     * @param login
      */
     public Utilisateur(
                 final Long utiId, final String login) {
 
-        this.utiId = utiId;
-        this.login = login;
+        id = utiId;
+        name = login;
     }
 
     /**
-     * Gets the uti id.
+     * Gets the user id.
      *
      * @return Returns the utiId.
      */
-    public Long getUtiId() {
+    @Override
+    public Long getId() {
 
-        return this.utiId;
+        return id;
     }
 
     /**
-     * Sets the uti id.
+     * Sets the user id.
      *
      * @param utiId
-     *            The utiId to set.
+     *            The user id to set.
      */
-    public void setUtiId(final Long utiId) {
+    public void setId(final Long utiId) {
 
-        this.utiId = utiId;
+        id = utiId;
     }
 
     /**
-     * Gets the login.
+     * Gets the login name.
      *
-     * @return Returns the login.
+     * @return Returns the login name.
      */
-    public String getLogin() {
+    @Override
+    public String getName() {
 
-        return this.login;
+        return name;
     }
 
     /**
-     * Sets the login.
+     * Sets the login name.
      *
      * @param login
-     *            The login to set.
+     *            The login name to set.
      */
-    public void setLogin(final String login) {
+    public void setName(final String login) {
 
-        this.login = login;
+        name = login;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
 
         final StringBuilder builder = new StringBuilder();
-        builder.append("Utilisateur [utiId=").append(utiId).append(", login=").append(login).append("]");
+        builder.append("Utilisateur [utiId=").append(id).append(", name=").append(name).append("]");
         return builder.toString();
+    }
+
+    @Override
+    public Set<RoleSummary> getRoles() {
+        return null;
     }
 
 }

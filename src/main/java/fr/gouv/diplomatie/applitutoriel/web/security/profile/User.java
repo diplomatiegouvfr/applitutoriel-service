@@ -60,6 +60,9 @@ package fr.gouv.diplomatie.applitutoriel.web.security.profile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 public class User {
     private String username;
     private List<Role> roles;

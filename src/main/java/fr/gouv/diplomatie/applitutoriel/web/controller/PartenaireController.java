@@ -59,6 +59,7 @@ package fr.gouv.diplomatie.applitutoriel.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -73,25 +74,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Partenaire;
-import fr.gouv.diplomatie.applitutoriel.business.bo.Photo;
-import fr.gouv.diplomatie.applitutoriel.business.service.PartenaireService;
-import fr.gouv.diplomatie.applitutoriel.business.service.PhotoService;
+import fr.gouv.diplomatie.applitutoriel.business.service.partenaire.PartenaireService;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Photo;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.PartenaireRechercherDTOIn;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.TablePartenaire;
+
 import hornet.framework.exception.BusinessException;
 import hornet.framework.exception.BusinessListException;
 import hornet.framework.exception.ObjectNotFoundException;
 import hornet.framework.web.converter.HornetMediaType;
 import hornet.framework.web.table.Pagination;
-import hornet.framework.web.tree.bo.ITreeNode;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 3 févr. 2015
  */
 @RestController
-@RequestMapping(value = "/partenaires", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/partenaires", produces = {
+    MediaType.APPLICATION_JSON_VALUE})
 public class PartenaireController {
 
     private static final int NB_ITEMS_PAR_PAGE = 10;
@@ -101,41 +102,32 @@ public class PartenaireController {
     @Resource
     private PartenaireService partenaireService;
 
-    @Resource
-    private PhotoService photoService;
-
     @RequestMapping(value = {
     "/{id}"}, method = RequestMethod.GET)
     public Partenaire lire(@PathVariable final Long id) {
 
-        final Partenaire partenaire = this.partenaireService.lirePartenaire(id);
+        final Optional<Partenaire> partenaire = partenaireService.lirePartenaire(id);
 
-        if (partenaire == null) {
-            throw new ObjectNotFoundException(new String[]{ String.valueOf(id) });
+        if (!partenaire.isPresent()) {
+            throw new ObjectNotFoundException(new String[]{
+                String.valueOf(id)});
         }
 
-        return partenaire;
+        return partenaire.get();
     }
 
     @RequestMapping(value = "/{idPartenaire}/photo", method = RequestMethod.GET)
     public Photo lirePhotoDuPartenaire(@PathVariable final Long idPartenaire) {
 
-        Photo photo = null;
-
-        final Partenaire partenaire = this.partenaireService.lirePartenaire(idPartenaire);
-
-        if (partenaire != null && partenaire.getPhoto() != null && partenaire.getPhoto().getId() != null) {
-            photo = this.photoService.lirePhoto(partenaire.getPhoto().getId());
+        final Optional<Partenaire> partenaire =
+                    partenaireService.lirePartenaire(idPartenaire);
+        
+        if (partenaire.isPresent() && partenaire.get().getPhoto() != null) {
+            return partenaire.get().getPhoto();
+        } else {
+            throw new ObjectNotFoundException(new String[]{
+                String.valueOf(idPartenaire)});
         }
-
-        return photo;
-    }
-
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ITreeNode lister() {
-
-        final ITreeNode tree = this.partenaireService.listerArborescenceOrganismePartenaire();
-        return tree;
     }
 
     @RequestMapping(value = "/recherche", method = RequestMethod.POST, produces = {
@@ -150,8 +142,8 @@ public class PartenaireController {
         final TablePartenaire dtoOut = new TablePartenaire();
         dtoOut.setListeCriteres(dtoIn.getCriteres());
 
-        List<Partenaire> liste =
-                    this.partenaireService.listerParCriteresAvecTri(dtoIn.getCriteres(), dtoIn.getSort() != null ? dtoIn.getSort()[0] : null);
+        List<PartenaireProjection.Summary> liste = partenaireService.listerParCriteresAvecTri(
+            dtoIn.getCriteres(), dtoIn.getSort() != null ? dtoIn.getSort()[0] : null);
         final int totalItems = liste.size();
 
         final Pagination pagination = dtoIn.getPagination();
@@ -184,8 +176,6 @@ public class PartenaireController {
         dtoOut.setListe(liste);
         dtoOut.setNbTotal(totalItems);
 
-        LOG.debug("Out Demande de recherche : {}", dtoOut.toString());
-
         return dtoOut;
     }
 
@@ -193,23 +183,22 @@ public class PartenaireController {
     @RequestMapping(method = RequestMethod.POST)
     public Partenaire ajouter(@RequestBody final Partenaire partenaire) {
 
-        final Partenaire ajout = this.partenaireService.ajouterPartenaire(partenaire);
+        final Partenaire ajout = partenaireService.ajouterPartenaire(partenaire);
         return ajout;
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void modifier(@PathVariable final Long id, @RequestBody final Partenaire partenaire) {
-
         partenaire.setId(id);
-        this.partenaireService.modifierPartenaire(partenaire);
+        partenaireService.modifierPartenaire(partenaire);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void supprimer(@PathVariable final Long id) {
 
-        this.partenaireService.supprimerPartenaire(id);
+        partenaireService.supprimerPartenaire(id);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
@@ -223,13 +212,18 @@ public class PartenaireController {
         for (final Partenaire p : listePartenaires) {
             LOG.debug("Suppression du partenaire d'id {}", p.getId());
             try {
-                this.supprimer(p.getId());
+                supprimer(p.getId());
                 // on retourne les ids correctements supprimés
                 ids.add(p.getId());
                 // on ajoute aussi les succès dans l'exception pour récapituler
-                exList.addBusinessException(new BusinessException("IN-PA-RPA-01", new String[]{p.getPrenom(), p.getNom(), String.valueOf(p.getId())}));
+                exList.addBusinessException(new BusinessException("IN-PA-RPA-01", new String[]{
+                    p.getPrenom(),
+                    p.getNom(),
+                    String.valueOf(p.getId())}));
             } catch (final BusinessException e) {
-                final BusinessException be = new BusinessException("ER-PA-RPA-07", new String[]{p.getPrenom(), p.getNom()});
+                final BusinessException be = new BusinessException("ER-PA-RPA-07", new String[]{
+                    p.getPrenom(),
+                    p.getNom()});
                 exList.addBusinessException(be);
                 hasErrors = true;
             }

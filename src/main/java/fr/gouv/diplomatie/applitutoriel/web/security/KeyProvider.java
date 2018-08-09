@@ -70,9 +70,17 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 import org.jose4j.base64url.Base64;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import fr.gouv.diplomatie.applitutoriel.web.security.exceptions.JwtAuthenticationException;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
+@Component
+@PropertySource(value = {"classpath:token.properties"})
 public class KeyProvider {
 
     private final PrivateKey privateKey;
@@ -80,7 +88,7 @@ public class KeyProvider {
     private final byte[] key;
 
     public KeyProvider(
-                final String path) throws IOException, URISyntaxException {
+                @Value("${token.path}") final String path) throws IOException, URISyntaxException {
         // generate with ssh-keygen
         // GENERATE PRIVATE KEY in PKCS#1 format
         //openssl genrsa -f4 -out private.pem 4096

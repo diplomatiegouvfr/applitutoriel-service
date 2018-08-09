@@ -62,8 +62,7 @@ import java.util.List;
 import fr.gouv.diplomatie.applitutoriel.business.bo.Role;
 
 /**
- * @author Hornet
- * @since 1.0 - 26 mars 2015
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
 public class UtilisateurRolesDTO {
 

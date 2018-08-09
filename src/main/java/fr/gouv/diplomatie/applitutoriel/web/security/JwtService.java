@@ -78,6 +78,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 @Component
 public class JwtService {
     private static final String ISSUER = "fr.gouv.diplomatie";
@@ -195,6 +198,7 @@ public class JwtService {
                     .setExpectedAudience("myApplication")
                     .setExpectedIssuer(ISSUER + ".myApplication")
                     .setVerificationKey(key) // verification de la signature
+                    .setRelaxVerificationKeyValidation()
                     .build();
 
         //  Validate the JWT and process it to the Claims

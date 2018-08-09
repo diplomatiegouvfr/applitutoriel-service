@@ -67,11 +67,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * Intercepteur Spring permettant de logguer l'id de l'utilisateur effectuant une requête quand cet id est
- * fourni
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  *
- * @author Hornet
- * @since 1.0 - 15 juil. 2015
+ *         Intercepteur Spring permettant de logguer l'id de l'utilisateur effectuant une requête quand cet id
+ *         est fourni
+ *
  */
 public class UserRequestingInterceptor extends HandlerInterceptorAdapter {
 

@@ -106,12 +106,12 @@ public class Partenaire implements Serializable {
     /**
      *
      */
-    private Boolean isClient;
+    private Boolean client;
 
     /**
      *
      */
-    private Boolean isVIP;
+    private Boolean vip;
 
     /**
      *
@@ -340,37 +340,37 @@ public class Partenaire implements Serializable {
     }
 
     /**
-     * @return Returns the isClient.
+     * @return Returns the client.
      */
-    public Boolean getIsClient() {
+    public Boolean getClient() {
 
-        return isClient;
+        return client;
     }
 
     /**
-     * @param isClient
-     *            The isClient to set.
+     * @param client
+     *            The client to set.
      */
-    public void setIsClient(final Boolean isClient) {
+    public void setClient(final Boolean client) {
 
-        this.isClient = isClient;
+        this.client = client;
     }
 
     /**
-     * @return Returns the isVIP.
+     * @return Returns the vip.
      */
-    public Boolean getIsVIP() {
+    public Boolean getVip() {
 
-        return isVIP;
+        return vip;
     }
 
     /**
-     * @param isVIP
-     *            The isVIP to set.
+     * @param vip
+     *            The vip to set.
      */
-    public void setIsVIP(final Boolean isVIP) {
+    public void setVip(final Boolean vip) {
 
-        this.isVIP = isVIP;
+        this.vip = vip;
     }
 
     /**
@@ -395,7 +395,7 @@ public class Partenaire implements Serializable {
      */
     public String getLabelIsVIP() {
 
-        if (isVIP != null && isVIP) {
+        if (vip != null && vip) {
             return "oui";
         } else {
             return "non";
@@ -771,7 +771,7 @@ public class Partenaire implements Serializable {
         final StringBuilder builder = new StringBuilder();
         builder.append("Partenaire [id=").append(id).append(", ville=").append(ville).append(", civilite=")
         .append(civilite).append(", nationalite=").append(nationalite).append(", photo=")
-        .append(photo).append(", isClient=").append(isClient).append(", isVIP=").append(isVIP)
+        .append(photo).append(", client=").append(client).append(", vip=").append(vip)
         .append(", isVIPFiltre=").append(isVIPFiltre).append(", nom=").append(nom)
         .append(", prenom=").append(prenom).append(", nomLocal=").append(nomLocal)
         .append(", prenomLocal=").append(prenomLocal).append(", dateNaissance=")

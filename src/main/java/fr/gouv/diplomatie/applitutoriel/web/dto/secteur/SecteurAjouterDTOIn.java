@@ -59,7 +59,6 @@ package fr.gouv.diplomatie.applitutoriel.web.dto.secteur;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 4 févr. 2015
  */
 public class SecteurAjouterDTOIn {
 
@@ -100,14 +99,14 @@ public class SecteurAjouterDTOIn {
      */
     public void setDesc(final String description) {
 
-        this.desc = description;
+        desc = description;
     }
 
 	public String getUser() {
 		return user;
 	}
 
-	public void setUser(String user) {
+	public void setUser(final String user) {
 		this.user = user;
 	}
 

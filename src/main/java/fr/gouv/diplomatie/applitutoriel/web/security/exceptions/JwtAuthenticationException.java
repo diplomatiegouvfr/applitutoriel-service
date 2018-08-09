@@ -57,8 +57,14 @@
  */
 package fr.gouv.diplomatie.applitutoriel.web.security.exceptions;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
+@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 public class JwtAuthenticationException extends AuthenticationException {
 
     /**

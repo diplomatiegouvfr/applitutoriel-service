@@ -58,8 +58,7 @@
 package fr.gouv.diplomatie.applitutoriel.web.dto.utilisateur;
 
 /**
- * @author Hornet
- * @since 1.0 - 26 mars 2015
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
 public class AuthDTOIn {
 

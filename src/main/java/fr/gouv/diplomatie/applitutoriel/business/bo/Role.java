@@ -58,6 +58,8 @@
 package fr.gouv.diplomatie.applitutoriel.business.bo;
 
 /**
+ * Entité metier Role.
+ * 
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
 public final class Role {

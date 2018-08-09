@@ -62,8 +62,9 @@ import java.io.Serializable;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
+ * Entité metier Photo.
+ * 
  * @author Hornet
- * @since 1.0 - 7 avr. 2015
  */
 public class Photo implements Serializable {
 

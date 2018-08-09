@@ -61,6 +61,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 public class Role implements GrantedAuthority {
 
     /**

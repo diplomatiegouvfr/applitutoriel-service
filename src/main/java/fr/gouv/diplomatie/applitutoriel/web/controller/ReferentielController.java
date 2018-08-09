@@ -68,14 +68,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Pays;
-import fr.gouv.diplomatie.applitutoriel.business.bo.Ville;
-import fr.gouv.diplomatie.applitutoriel.business.service.PaysService;
-import fr.gouv.diplomatie.applitutoriel.business.service.VilleService;
+import fr.gouv.diplomatie.applitutoriel.business.service.pays.PaysService;
+import fr.gouv.diplomatie.applitutoriel.business.service.ville.VilleService;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Pays;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Ville;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 9 févr. 2015
  */
 @RestController
 @RequestMapping(value = "/referentiel", produces = {

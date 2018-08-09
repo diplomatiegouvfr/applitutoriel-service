@@ -59,7 +59,17 @@ package fr.gouv.diplomatie.applitutoriel.business.bo;
 
 import java.io.Serializable;
 
+/**
+ * Entité metier Répartition
+ *
+ * @author MEAE - Ministère de l'Europe et des Affaires étrangères
+ */
 public class Repartition implements Serializable {
+	
+	/**
+    *
+    */
+   private static final long serialVersionUID = 1L;
 
     private String nomSecteur;
 

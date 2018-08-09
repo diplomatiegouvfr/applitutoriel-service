@@ -4,6 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
 	<!-- Import des fichiers de configuration spring -->
   	<import resource="classpath:/spring-appContext-mock-datasource.xml"/>
-    <import resource="classpath:/spring-appContext-mock-dao.xml"/>
-    <import resource="classpath:/spring-appContext-mock-service.xml"/>
+<!--     <import resource="classpath:/spring-appContext-mock-dao.xml"/> -->
+<!--     <import resource="classpath:/spring-appContext-mock-service.xml"/> -->
 </beans>

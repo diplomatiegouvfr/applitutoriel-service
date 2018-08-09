@@ -82,7 +82,6 @@ import org.jfree.util.SortOrder;
  * The Class Graphique.
  *
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 7 août 2014
  */
 public final class Graphique {
 

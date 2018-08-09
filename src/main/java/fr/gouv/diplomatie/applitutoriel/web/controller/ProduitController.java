@@ -71,13 +71,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.gouv.diplomatie.applitutoriel.business.bo.Produit;
-import fr.gouv.diplomatie.applitutoriel.business.service.ProduitService;
-import fr.gouv.diplomatie.applitutoriel.business.service.SecteurService;
+import fr.gouv.diplomatie.applitutoriel.business.service.produit.ProduitService;
+import fr.gouv.diplomatie.applitutoriel.business.service.secteur.SecteurService;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Produit;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.produit.ProduitProjection;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 5 may. 2015
  */
 @RestController
 @RequestMapping(value = "/produits", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -91,7 +91,7 @@ public class ProduitController {
     private SecteurService secteurService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<Produit> lister() {
+    public List<ProduitProjection.Produit> lister() {
 
         LOGGER.debug("Demande de liste");
 

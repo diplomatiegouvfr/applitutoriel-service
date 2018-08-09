@@ -57,13 +57,12 @@
  */
 package fr.gouv.diplomatie.applitutoriel.web.listener;
 
-import hornet.framework.web.listener.HornetContextListener;
-
 import org.slf4j.LoggerFactory;
+
+import hornet.framework.web.listener.HornetContextListener;
 
 /**
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- * @since 1.0 - 28 juil. 2014
  */
 public final class ApplicationContextListener extends HornetContextListener {
 
