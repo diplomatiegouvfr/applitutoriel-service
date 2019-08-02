@@ -66,8 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
-import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireSummaryDto;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.TablePartenaire;
 
 import hornet.framework.export.vo.presentation.ColVO;
@@ -109,16 +108,16 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
 
         LOG.debug("generation des données de l'export XLS/CSV");
 
-        final List<PartenaireProjection.Summary> listePartenaires = tablePartenaires.getListe();
+        final List<PartenaireSummaryDto> listePartenaires = tablePartenaires.getListe();
 
         final TableVO table = new TableVO();
         table.setNbColumns(6);
 
         table.setDate(new Date());
-        final List<RowVO> lignes = new ArrayList<RowVO>();
+        final List<RowVO> lignes = new ArrayList<>();
         table.setRows(lignes);
         // Titre des colonnes
-        final List<String> titles = new ArrayList<String>();
+        final List<String> titles = new ArrayList<>();
         titles.add("Nom");
         titles.add("Prénom");
         titles.add("Courriel");
@@ -129,15 +128,15 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
         table.setColumnsTitles(titles);
 
         if (listePartenaires != null) {
-            final Iterator<PartenaireProjection.Summary> it = listePartenaires.iterator();
+            final Iterator<PartenaireSummaryDto> it = listePartenaires.iterator();
 
             RowVO row;
             List<ColVO> cols;
             while (it.hasNext()) {
-                final Partenaire partenaire = (Partenaire)it.next();
+                final PartenaireSummaryDto partenaire = it.next();
 
                 row = new RowVO();
-                cols = new ArrayList<ColVO>();
+                cols = new ArrayList<>();
 
                 final ColVO colNom = new ColVO();
                 colNom.setValue(partenaire.getNom());
@@ -149,10 +148,10 @@ public class PartenaireTableExportService extends AbstractTableExportService<Tab
                 colOrg.setValue(partenaire.getOrganisme());
                 final ColVO colVIP = new ColVO();
                 colVIP.setFormat(TableVOUtils.FORMAT_BOOLEEN);
-                colVIP.setValue(partenaire.isVip());
+                colVIP.setValue(partenaire.getVip());
                 final ColVO colDateModif = new ColVO();
                 colDateModif.setFormat(TableVOUtils.FORMAT_DATE);
-                colDateModif.setValue(partenaire.getDateModif());
+                colDateModif.setValue(partenaire.getDateModification());
 
                 cols.add(colNom);
                 cols.add(colPrenom);

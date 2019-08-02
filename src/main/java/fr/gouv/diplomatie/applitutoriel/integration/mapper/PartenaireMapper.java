@@ -55,81 +55,23 @@
  * that you accept its terms.
  *
  */
-package fr.gouv.diplomatie.applitutoriel.business.service.partenaire;
+package fr.gouv.diplomatie.applitutoriel.integration.mapper;
 
 import java.util.List;
-import java.util.Optional;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
 import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireSummaryDto;
-import fr.gouv.diplomatie.applitutoriel.web.action.forms.FormRecherchePartenaire;
 
-import hornet.framework.web.table.Sort;
+@Mapper(componentModel = "spring")
+public interface PartenaireMapper {
 
-/**
- * @author MEAE - Ministère de l'Europe et des Affaires étrangères
- */
-public interface PartenaireService {
+    PartenaireMapper INSTANCE = Mappers.getMapper(PartenaireMapper.class);
 
-    /**
-     * @param criteres
-     *            FormRecherchePartenaire
-     * @return boolean
-     */
-    boolean verifDate(FormRecherchePartenaire criteres);
+    PartenaireSummaryDto partenaireToSummary(Partenaire partenaire);
 
-    /**
-     * Retourne une liste de partenaires en fonction des criteres
-     *
-     * @param criteres
-     *            FormRecherchePartenaire
-     * @return liste de partenaires
-     */
-    List<PartenaireSummaryDto> listerParCriteres(FormRecherchePartenaire criteres);
-
-    /**
-     * Retourne une liste de partenaires en fonction des criteres et triee en fonction du tri
-     *
-     * @param criteres
-     *            FormRecherchePartenaire
-     * @param sort
-     *            Sort
-     * @return liste de partenaires ordonnee
-     */
-    List<PartenaireSummaryDto> listerParCriteresAvecTri(FormRecherchePartenaire criteres, Sort sort);
-
-    /**
-     * Recupere un partenaire par son identifiant
-     *
-     * @param idPartenaire
-     *            Long
-     * @return le partenaire
-     */
-    Optional<Partenaire> lirePartenaire(Long idPartenaire);
-
-    /**
-     * Creation du partenaire.
-     *
-     * @param partenaire
-     *            Partenaire
-     * @return le partenaire ajoute
-     */
-    Partenaire ajouterPartenaire(Partenaire partenaire);
-
-    /**
-     * Met a jour le partenaire
-     *
-     * @param partenaire
-     *            Partenaire
-     */
-    void modifierPartenaire(Partenaire partenaire);
-
-    /**
-     * Supprime le partenaire
-     *
-     * @param idPartenaire
-     *            Long
-     */
-    void supprimerPartenaire(Long idPartenaire);
+    List<PartenaireSummaryDto> partenairesToSummarys(List<Partenaire> partenaires);
 
 }

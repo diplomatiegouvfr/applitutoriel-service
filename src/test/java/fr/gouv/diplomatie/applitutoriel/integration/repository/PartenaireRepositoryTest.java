@@ -71,7 +71,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.gouv.diplomatie.applitutoriel.integration.conf.DataSourceConf;
 import fr.gouv.diplomatie.applitutoriel.integration.conf.JpaRepositoryConf;
-import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
 import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection.Summary;
 import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireRepository;
 import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireSpecification;
@@ -115,7 +115,7 @@ public class PartenaireRepositoryTest {
 
         cal.set(2050, 11, 31);
         criteres.setStartDate(cal.getTime());
-        List<Summary> partenaires = repository.findAll(
+        List<Partenaire> partenaires = repository.findAll(
             PartenaireSpecification.criteresRecherche(criteres));
         Assert.assertTrue(partenaires.isEmpty());
 
@@ -137,7 +137,8 @@ public class PartenaireRepositoryTest {
         criteres.getPartenaire().setClient(Boolean.TRUE);
         criteres.setStartDate(cal.getTime());
 
-        final List<Summary> partenaires = repository.findAll(
+        final List<Partenaire> partenaires =
+                    repository.findAll(
             PartenaireSpecification.criteresRecherche(criteres));
 
         Assert.assertFalse(partenaires.isEmpty());

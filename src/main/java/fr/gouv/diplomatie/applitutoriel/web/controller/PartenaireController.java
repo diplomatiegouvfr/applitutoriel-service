@@ -77,7 +77,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.gouv.diplomatie.applitutoriel.business.service.partenaire.PartenaireService;
 import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
 import fr.gouv.diplomatie.applitutoriel.integration.entity.Photo;
-import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireSummaryDto;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.PartenaireRechercherDTOIn;
 import fr.gouv.diplomatie.applitutoriel.web.dto.partenaire.TablePartenaire;
 
@@ -121,7 +121,7 @@ public class PartenaireController {
 
         final Optional<Partenaire> partenaire =
                     partenaireService.lirePartenaire(idPartenaire);
-        
+
         if (partenaire.isPresent() && partenaire.get().getPhoto() != null) {
             return partenaire.get().getPhoto();
         } else {
@@ -142,7 +142,7 @@ public class PartenaireController {
         final TablePartenaire dtoOut = new TablePartenaire();
         dtoOut.setListeCriteres(dtoIn.getCriteres());
 
-        List<PartenaireProjection.Summary> liste = partenaireService.listerParCriteresAvecTri(
+        List<PartenaireSummaryDto> liste = partenaireService.listerParCriteresAvecTri(
             dtoIn.getCriteres(), dtoIn.getSort() != null ? dtoIn.getSort()[0] : null);
         final int totalItems = liste.size();
 
@@ -205,7 +205,7 @@ public class PartenaireController {
     @RequestMapping(value = "/suppression", method = RequestMethod.POST)
     public List<Long> supprimerEnMasse(@RequestBody final List<Partenaire> listePartenaires) {
 
-        final List<Long> ids = new ArrayList<Long>();
+        final List<Long> ids = new ArrayList<>();
         LOG.debug("Demande de supression en masse");
         final BusinessListException exList = new BusinessListException();
         Boolean hasErrors = false;

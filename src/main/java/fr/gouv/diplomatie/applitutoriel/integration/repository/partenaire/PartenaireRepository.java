@@ -62,32 +62,29 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-
 import org.springframework.data.repository.Repository;
 
 import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
 
 public interface PartenaireRepository extends Repository<Partenaire, Long> {
 
-	List<PartenaireProjection.Summary> findAll(Specification<Partenaire> criteresRecherche);
+    List<Partenaire> findAll(Specification<Partenaire> criteresRecherche);
 
-	List<PartenaireProjection.Summary> findAll(Specification<Partenaire> criteresRecherche,
-			Sort sortData);
-	
-	Optional<PartenaireProjection.Partenaire> findById(long idPartenaire);
-	
-	Partenaire findById(Long idPartenaire);
-	
-	List<PartenaireProjection.Partenaire> findAllById(long idPartenaire);
+    List<Partenaire> findAll(Specification<Partenaire> criteresRecherche,
+                Sort sortData);
 
-	List<PartenaireProjection.Partenaire> findAll();
-	
-	List<PartenaireProjection.Summary> findAllSummarizedBy();
-	
-	Partenaire save(Partenaire partenaire);
+    Optional<PartenaireProjection.Partenaire> findById(long idPartenaire);
 
-	void delete(Partenaire partenaire);
+    Partenaire findById(Long idPartenaire);
 
-	Partenaire getOne(Long idPartenaire);
+    List<PartenaireProjection.Partenaire> findAllById(long idPartenaire);
+
+    List<PartenaireProjection.Summary> findAllSummarizedBy();
+
+    Partenaire save(Partenaire partenaire);
+
+    void delete(Partenaire partenaire);
+
+    Partenaire getOne(Long idPartenaire);
 
 }

@@ -68,13 +68,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.gouv.diplomatie.applitutoriel.business.service.ville.VilleService;
 import fr.gouv.diplomatie.applitutoriel.integration.entity.Partenaire;
-import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection;
+import fr.gouv.diplomatie.applitutoriel.integration.entity.Ville;
+import fr.gouv.diplomatie.applitutoriel.integration.mapper.PartenaireMapper;
 import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireRepository;
 import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireSpecification;
-import fr.gouv.diplomatie.applitutoriel.integration.entity.Ville;
-import fr.gouv.diplomatie.applitutoriel.business.service.ville.VilleService;
+import fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireSummaryDto;
 import fr.gouv.diplomatie.applitutoriel.web.action.forms.FormRecherchePartenaire;
+
 import hornet.framework.exception.BusinessException;
 import hornet.framework.web.table.Sort;
 import hornet.framework.web.table.SortDirection;
@@ -85,18 +87,17 @@ import hornet.framework.web.table.SortDirection;
  */
 @Service
 public class PartenaireServiceImpl implements PartenaireService {
-	
+
     private final static Logger LOGGER = LoggerFactory.getLogger(PartenaireServiceImpl.class);
 
     @Autowired
     private PartenaireRepository repository;
-    
+
     /**
      * <code>villeService</code> the villeService
      */
     @Autowired
     private final transient VilleService villeService;
-
 
     /**
      * Constructeur par défaut
@@ -156,35 +157,38 @@ public class PartenaireServiceImpl implements PartenaireService {
 
     /** {@inheritDoc} */
     @Override
-    public List<PartenaireProjection.Summary> listerParCriteres(final FormRecherchePartenaire criteres) {
+    public List<PartenaireSummaryDto> listerParCriteres(final FormRecherchePartenaire criteres) {
 
-        return repository.findAll(PartenaireSpecification.criteresRecherche(criteres));//base
+        final List<Partenaire> partenaires =
+                    repository.findAll(PartenaireSpecification.criteresRecherche(criteres));
+        return PartenaireMapper.INSTANCE.partenairesToSummarys(partenaires);
     }
 
     /** {@inheritDoc} */
     @Override
-    public List<PartenaireProjection.Summary> listerParCriteresAvecTri(final FormRecherchePartenaire criteres, final Sort sort) {
+    public List<PartenaireSummaryDto> listerParCriteresAvecTri(final FormRecherchePartenaire criteres,
+                final Sort sort) {
 
-    	
-    	return repository.findAll(PartenaireSpecification.criteresRecherche(criteres), this.getSortData(sort));//base
-
+        final List<Partenaire> partenaires = repository
+                    .findAll(PartenaireSpecification.criteresRecherche(criteres), getSortData(sort));
+        return PartenaireMapper.INSTANCE.partenairesToSummarys(partenaires);
     }
 
     /** {@inheritDoc} */
     @Override
     @Transactional(readOnly = true)
     public Optional<Partenaire> lirePartenaire(final Long idPartenaire) {
-    	
-//    	Optional<fr.gouv.diplomatie.applitutoriel.integration.partenaire.PartenaireProjection.Partenaire> p = repository.findById(idPartenaire);
-//    	fr.gouv.diplomatie.applitutoriel.integration.partenaire.PartenaireProjection.Partenaire p = repository.findById(idPartenaire);
-    	Partenaire par = (Partenaire) repository.findById(idPartenaire);
-    	Partenaire pp = repository.getOne(idPartenaire);
-    	
-    	List<fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection.Partenaire> l = repository.findAllById(idPartenaire);
-//    	if(pp != null) {
-//    		pp.getPhoto();
-//    		pp.getProduits();
-//    	}
+
+        //    	Optional<fr.gouv.diplomatie.applitutoriel.integration.partenaire.PartenaireProjection.Partenaire> p = repository.findById(idPartenaire);
+        //    	fr.gouv.diplomatie.applitutoriel.integration.partenaire.PartenaireProjection.Partenaire p = repository.findById(idPartenaire);
+        final Partenaire par = repository.findById(idPartenaire);
+        final Partenaire pp = repository.getOne(idPartenaire);
+
+        final List<fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire.PartenaireProjection.Partenaire> l = repository.findAllById(idPartenaire);
+        //    	if(pp != null) {
+        //    		pp.getPhoto();
+        //    		pp.getProduits();
+        //    	}
 
         return Optional.ofNullable(par);//repository.findById(idPartenaire);
     }
@@ -223,16 +227,16 @@ public class PartenaireServiceImpl implements PartenaireService {
         partenaire.setId(idPartenaire);
         repository.delete(partenaire);
     }
-    
-    /** {@inheritDoc} 
+
+    /** {@inheritDoc}
      * @return */
     public final org.springframework.data.domain.Sort getSortData(final Sort sort) {
 
-    	if (sort != null) {
+        if (sort != null) {
 
             final org.springframework.data.domain.Sort.Direction dir = sort.getDir() == SortDirection.ASC
-                ? org.springframework.data.domain.Sort.Direction.ASC
-                : org.springframework.data.domain.Sort.Direction.DESC;
+                        ? org.springframework.data.domain.Sort.Direction.ASC
+                            : org.springframework.data.domain.Sort.Direction.DESC;
 
             switch (sort.getKey()) {
                 case "nom":
@@ -253,7 +257,7 @@ public class PartenaireServiceImpl implements PartenaireService {
             }
         } else {
             return org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.ASC,
-                "nom");
+                        "nom");
         }
     }
 }

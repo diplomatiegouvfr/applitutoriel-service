@@ -57,9 +57,6 @@
  */
 package fr.gouv.diplomatie.applitutoriel.business.service;
 
-import hornet.framework.exception.BusinessException;
-import hornet.framework.mail.MailService;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,6 +67,9 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import hornet.framework.exception.BusinessException;
+import hornet.framework.mail.MailService;
 
 /**
  * Implementation pour l'envoi d'un mail de contact.
@@ -107,12 +107,12 @@ public class MailContactServiceImpl implements MailContactService {
      */
     public MailContactServiceImpl() {
 
-        this.mailService = null;
-        this.objetContactMail = null;
-        this.corpsContactMail = null;
-        this.destinataires = null;
-        this.applicationName = null;
-        this.applicationUrl = null;
+        mailService = null;
+        objetContactMail = null;
+        corpsContactMail = null;
+        destinataires = null;
+        applicationName = null;
+        applicationUrl = null;
     }
 
     /** Champ ReplyTo. */
@@ -154,24 +154,23 @@ public class MailContactServiceImpl implements MailContactService {
 
         try {
             final String sujet =
-                        String.format(this.objetContactMail, this.applicationName,
+                        String.format(objetContactMail, applicationName,
                             WordUtils.capitalize(prenom), WordUtils.capitalize(nom));
 
-            final Map<String, Object> params = new HashMap<String, Object>();
+            final Map<String, Object> params = new HashMap<>();
             params.put("nom", WordUtils.capitalize(nom));
             params.put("prenom", WordUtils.capitalize(prenom));
             params.put("corps", message);
             final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'à' HH:mm:ss", Locale.FRENCH);
             params.put("date", sdf.format(new Date()));
-            params.put("applicationName", this.applicationName);
-            params.put("applicationUrl", this.applicationUrl);
+            params.put("applicationName", applicationName);
+            params.put("applicationUrl", applicationUrl);
 
             // Exemple d'utilisation d'un NO_REPLY ou d'ajout d'un CC
             // params.put(MailServiceImpl.SMTP_HEADER_REPLYTO, NO_REPLY);
             // params.put(MailServiceImpl.SMTP_HEADER_CC, "root@localhost.com");
 
-            this.mailService.envoyerDepuisModele(fromAddress, sujet, this.corpsContactMail, params,
-                this.destinataires);
+            mailService.envoyerDepuisModele(fromAddress, sujet, corpsContactMail, params, destinataires);
 
         } catch (final Exception e) {
             MailContactServiceImpl.LOGGER.error("Erreur lors de la tentative d'envoi de mail de contact.", e);

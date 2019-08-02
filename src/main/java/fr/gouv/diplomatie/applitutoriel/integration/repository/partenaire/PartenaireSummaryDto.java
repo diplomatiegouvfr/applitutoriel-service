@@ -55,27 +55,10 @@
  * that you accept its terms.
  *
  */
-package fr.gouv.diplomatie.applitutoriel.integration.entity;
+package fr.gouv.diplomatie.applitutoriel.integration.repository.partenaire;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -83,128 +66,29 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Entité metier Partenaire.
- *
  * @author MEAE - Ministère de l'Europe et des Affaires étrangères
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "PARTENAIRE")
-@Entity
 @EqualsAndHashCode
-public class Partenaire implements Serializable {
+public class PartenaireSummaryDto implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The id. */
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "ID_PARTENAIRE", updatable = false, nullable = false)
     protected Long id;
 
-    @Column(name = "PAR_IS_CLIENT")
-    protected boolean client;
+    protected Boolean vip;
 
-    @Column(name = "PAR_IS_VIP")
-    private boolean vip;
-
-    @Column(name = "PAR_NOM", nullable = false)
     protected String nom;
 
-    @Column(name = "PAR_PRENOM", nullable = false)
     protected String prenom;
 
-    @Column(name = "PAR_NOM_LOCAL")
-    protected String nomLocal;
-
-    @Column(name = "PAR_PRENOM_LOCAL")
-    protected String prenomLocal;
-
-    @Column(name = "PAR_DATE_NAISSANCE")
-    protected Date dateNaissance;
-
-    @Column(name = "PAR_FONCTION")
-    protected String fonction;
-
-    @Column(name = "PAR_PRO_TEL_FIXE")
-    protected String proTelFixe;
-
-    @Column(name = "PAR_PRO_TEL_PORT")
-    protected String proTelPort;
-
-    @Column(name = "PAR_PRO_COURRIEL")
     protected String proCourriel;
 
-    @Column(name = "PAR_PRO_FAX")
-    protected String proFax;
-
-    @Column(name = "PAR_PRO_ADR_CP")
-    protected String proAdrCP;
-
-    @Column(name = "PAR_PRO_ADR_RUE")
-    protected String proAdrRue;
-
-    @Column(name = "PAR_ASSIST_NOM")
-    protected String assistNom;
-
-    @Column(name = "PAR_ASSIST_PRENOM")
-    protected String assistPrenom;
-
-    @Column(name = "PAR_ASSIST_TEL")
-    protected String assistTel;
-
-    @Column(name = "PAR_ASSIST_COURRIEL")
-    protected String assistCourriel;
-
-    @Column(name = "PAR_COMMENTAIRE")
-    protected String commentaire;
-
-    @Column(name = "PAR_ORGANISME")
     protected String organisme;
 
-    @Column(name = "PAR_DATE_CREATION")
-    protected Date dateCrea;
+    protected Date dateModification;
 
-    @Column(name = "PAR_DATE_MODIFICATION")
-    protected Date dateModif;
-
-    @Column(name = "PAR_SATISFACTION")
-    protected String satisfaction;
-
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "ID_VILLE", nullable = false)
-    protected Ville ville;
-
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "ID_CIVILITE", nullable = false)
-    protected Civilite civilite;
-
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "ID_PAYS", nullable = false)
-    protected Pays nationalite;
-
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "ID_PHOTO", nullable = true)
-    private Photo photo;
-
-    @ManyToMany(cascade = {
-        CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinTable(name="PRODUIT_PARTENAIRE", joinColumns=@JoinColumn(name="ID_PARTENAIRE", referencedColumnName="ID_PARTENAIRE"),
-                inverseJoinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID_PRODUIT"))
-    private Set<Produit> produits;
-
-    /**
-     * @return oui ou non
-     */
-    public String getLabelIsVIP() {
-
-        if (vip) {
-            return "oui";
-        } else {
-            return "non";
-        }
-    }
 }

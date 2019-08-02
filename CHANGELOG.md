@@ -1,3 +1,8 @@
+# applitutoriel-service 5.4.0
+ - EVOL : update version
+ - EVOL : migration JDK11/Tomcat9
+ - EVOL : Update de repo suite à montée de version spring data + ajout mapstruct (les repos basiques ne gèrent plus les projections)
+
 # applitutoriel-service 5.2.0
  - FIX : Déphasage MCD
  - EVOL : Droits pour test de perf
