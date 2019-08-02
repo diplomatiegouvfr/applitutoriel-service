@@ -1,3 +1,6 @@
+# applitutoriel-service 5.4.1
+ - EVOL : update version hornet-service pour CVE
+
 # applitutoriel-service 5.4.0
  - EVOL : update version
  - EVOL : migration JDK11/Tomcat9
